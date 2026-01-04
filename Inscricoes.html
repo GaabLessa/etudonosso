@@ -604,6 +604,9 @@ footer .footer-dev a:hover {
       Documento com foto obrigatório.<br>
       Chip e número de peito são pessoais e intransferíveis.
     </p>
+    <p><strong>⚠️ Saúde e responsabilidade:</strong><br>
+Ao participar, declaro estar em boas condições de saúde, assumindo total responsabilidade por qualquer risco ou acidente decorrente da atividade.</p>
+
 
     <button class="btn-fechar" onclick="fecharModal()">Entendi</button>
   </div>
@@ -620,6 +623,8 @@ footer .footer-dev a:hover {
     <label for="data_nascimento">Data de nascimento *</label>
     <input type="date" id="data_nascimento" required>
 
+    <label for="cidade">Cidade *</label>
+<input type="text" id="cidade" required placeholder="Digite sua cidade">
     
   <label for="cpf">CPF *</label>
   <input type="text" id="cpf" required maxlength="14" placeholder="XXX.XXX.XXX-XX" oninput="formatarCPF(this)">
@@ -637,6 +642,13 @@ footer .footer-dev a:hover {
       <option value="4km">4km</option>
       <option value="8km">8km</option>
     </select>
+
+    <label for="tipo_participacao">Você participará de *</label>
+<select id="tipo_participacao" required>
+  <option value="">Selecione</option>
+  <option value="Corrida">Corrida</option>
+  <option value="Caminhada">Caminhada</option>
+</select>
 
     <label for="sexo">Sexo</label>
     <select id="sexo">
@@ -711,7 +723,6 @@ const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popup-message");
 const popupClose = document.getElementById("popup-close");
 const popupContent = document.querySelector(".popup-content");
-
 let popupTimeout;
 
 function showPopup(message, type = "success", autoClose = true) {
@@ -742,13 +753,14 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const formData = new FormData();
-
   formData.append("nome", document.getElementById('nome').value.trim());
   formData.append("data_nascimento", document.getElementById('data_nascimento').value);
+  formData.append("cidade", document.getElementById('cidade').value.trim());
   formData.append("cpf", document.getElementById('cpf').value.replace(/\D/g, ''));
   formData.append("email", document.getElementById('email').value.trim());
   formData.append("telefone", document.getElementById('telefone').value.trim());
   formData.append("modalidade", document.getElementById('modalidade').value);
+  formData.append("tipo_participacao", document.getElementById('tipo_participacao').value);
   formData.append("sexo", document.getElementById('sexo').value);
   formData.append("tamanho_camisa", document.getElementById('tamanho_camisa').value);
   formData.append("retirada_kit", document.getElementById('retirada_kit').value.trim());
@@ -757,9 +769,11 @@ form.addEventListener('submit', async (e) => {
   if (
     !formData.get("nome") ||
     !formData.get("data_nascimento") ||
+    !formData.get("cidade") ||
     !formData.get("cpf") ||
     !formData.get("email") ||
-    !formData.get("modalidade")
+    !formData.get("modalidade") ||
+    !formData.get("tipo_participacao")
   ) {
     showPopup("Preencha todos os campos obrigatórios (*)", "error", false);
     return;
@@ -767,21 +781,22 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbwWmxMuAnHhP8FLsOvmDzbOhk57GrDgdMmzocMWd846uGoxTtvVJIfzVbd4St7SzXwT/exec",
+      "https://script.google.com/macros/s/AKfycbzDXLDz-AsXNP5i-NwgK6rGIxFprpomzOoFeiPM9o_4asDFiEfpSuSAbTWtRf7v7GA/exec", // <- Substitua pela URL do deploy
       {
         method: "POST",
         body: formData
       }
     );
 
-if (res.ok) {
-  showPopup("Inscrição enviada com sucesso! ✅", "success", true);
-  form.reset();
-} else {
-  showPopup("Erro ao enviar inscrição.", "error", false);
-}
+    if (res.ok) {
+      showPopup("Inscrição enviada com sucesso! ✅", "success", true);
+      form.reset();
+    } else {
+      showPopup("Erro ao enviar inscrição.", "error", false);
+    }
   } catch (err) {
     showPopup("Erro de conexão com o servidor.", "error", false);
+    console.error(err);
   }
 });
 
@@ -826,4 +841,5 @@ btnAbrir.addEventListener("click", abrirModal);
 modal.addEventListener("click", (e) => {
   if (e.target === modal) fecharModal();
 });
+
 </script>
