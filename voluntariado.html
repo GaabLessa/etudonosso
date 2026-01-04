@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cadastro de Voluntários - Voluntários do Bem</title>
+  <link rel="icon" href="Imagens/favicon.jpg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #b6d9f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+   
+  header {
+    background-color: #005bac;
+    height: 140px;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: solid 6px #cec408;
+  }
+
+  .logo img {
+    max-height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+    font-size: 18px;
+  }
+
+  nav a:hover {
+    opacity: 0.8;
+  }
+
+    /* Hero */
+    .hero {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      text-align: center;
+      
+    }
+
+    .hero img {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgb(0 0 0 / 0.1);
+      margin-bottom: 2rem;
+      border:  2px solid; 
+      border-color:  #008000;
+    }
+
+    .hero-text h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--azul-primario);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+  main {
+    max-width: 600px;
+    margin: 3rem auto;
+    background-color: #005bac;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  h1, h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  input[type=number], select {
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .payment-methods {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-method {
+    flex: 1 1 120px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  .btn-method:hover,
+  .btn-method:focus {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    outline: none;
+  }
+  .btn-mercado {
+    background: #00a650;
+  }
+  .btn-paypal {
+    background: #003087;
+  }
+  .btn-pix {
+    background: #EAB308;
+    color: #222;
+  }
+  .btn-pix:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    color: #666;
+  }
+  /* Modal */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+  }
+  .modal-bg.active {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+  }
+  .modal-content img {
+    max-width: 250px;
+    margin-bottom: 1rem;
+  }
+  .modal-content p {
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .modal-content button {
+    background: #005bac;
+    color: white;
+    padding: 0.8rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  .modal-content button:hover {
+    background: #005bac;
+  }
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+  }
+  .modal-close:hover {
+    color: #333;
+  }
+  /* Aviso de mensagem */
+  #mensal-pix-alert {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+  }
+
+      /* Estilos base do nav */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botão hamburger - inicialmente escondido */
+#menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;   /* Menor largura */
+  height: 24px;  /* Menor altura */
+  position: fixed; /* fixo para ficar no topo */
+  right: 20px; /* botão à direita */
+  z-index: 1100;
+  padding: 0;
+}
+
+/* Linhas do hamburger */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  display: block;
+  background-color: white;
+  height: 3px;
+  border-radius: 3px;
+  position: absolute;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Linha central */
+.hamburger {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Linha de cima */
+.hamburger::before {
+  top: 7px;
+  left: 0;
+}
+
+/* Linha de baixo */
+.hamburger::after {
+  bottom: 7px;
+  left: 0;
+}
+
+/* Quando ativo, muda a cor das linhas, sem transformar em X */
+#menu-toggle.active .hamburger,
+#menu-toggle.active .hamburger::before,
+#menu-toggle.active .hamburger::after {
+  background-color: #ffffff; /* amarelo bonito */
+}
+
+/* Estilos mobile */
+/* Menu lateral mobile */
+@media (max-width: 768px) {
+  nav ul {
+    display: none; /* esconde o menu padrão */
+    flex-direction: column;
+    background-color: #005bac;
+    position: fixed;
+    top: 60px; /* altura do header */
+    right: 0;
+    width: 200px;
+    height: auto; /* ajusta a altura ao conteúdo */
+    max-height: calc(100vh - 60px); /* não ultrapassa a tela */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: -3px 0 8px rgba(0,0,0,0.2);
+    overflow-y: auto; /* scroll caso ultrapasse altura da tela */
+    border-radius: 0 0 0 10px; /* cantinho arredondado só na lateral esquerda */
+    z-index: 1000;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li a {
+    color: white;
+    padding: 1rem 1.5rem;
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #cec408;
+    transition: background-color 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #005bac;
+    outline: none;
+    border-bottom: 5px solid #cec408;
+  }
+
+  /* Mostrar o botão hamburger no mobile */
+  #menu-toggle {
+    display: block;
+  }
+}
+
+/* Formulário estilo base ONU, cores fixas */
+
+form label {
+  display: block; /* corrigido display: fle */
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #ffffff; /* azul primário */
+  font-size: 1rem;
+}
+
+form {
+
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem; /* ajuste para ter um espaço lateral bom */
+  background-color: #005bac;
+  border: 2px solid  #cec408;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(1, 70, 35, 0.15);
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="number"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1.4rem;
+  border: 2px solid  #cec408;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #656666;
+  background-color: #fff;
+  box-sizing: border-box; /* ESSA LINHA É FUNDAMENTAL */
+}
+
+form textarea {
+  min-height: 100px;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #005bac;
+
+  background-color: #fff;
+}
+
+form button[type="submit"] {
+  background-color: white; /* azul primário */
+  color: #000; /* branco */
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+
+}
+
+form button[type="submit"]:hover,
+form button[type="submit"]:focus {
+  background-color: #2c3e50; 
+  outline: none;
+  color: #fff;
+  border-bottom: 6px solid  #cec408;
+}
+
+/* Mensagens de erro ou sucesso (se usar) */
+form .message {
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #d93025; /* vermelho para erro */
+}
+
+/* Responsividade para mobile */
+@media (max-width: 480px) {
+  form {
+    padding: 1rem 2rem; /* menos padding nas laterais, mas igual dos dois lados */
+    margin: 1rem auto; /* para dar margem vertical menor no mobile */
+    box-shadow: none; /* opcional, para tirar sombra e ficar mais clean no mobile */
+    border-width: 1.5px; /* borda um pouco menor no mobile */
+  }
+
+  form button[type="submit"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+
+    /* Botão WhatsApp fixo */
+    .whatsapp-button {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: #005bac;
+      color: white;
+      font-size: 28px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #005bac;
+      text-decoration: none;
+      color: #cec408;
+    }
+
+    /* Botão toggle tema */
+    #theme-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #005bac;
+      color: #fff;
+      border: none;
+      font-size: 1.3rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      z-index: 9999;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    #theme-toggle:hover,
+    #theme-toggle:focus {
+      background-color: #005bac;
+      color: #cec408;
+    }
+
+    /* Tema escuro simples */
+    html[data-theme='dark'] body {
+      background-color: #2c3e50;
+      color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] header {
+      background-color: #005bac;
+      box-shadow: none;
+    }
+
+    html[data-theme='dark'] nav a {
+      color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] main {
+      background-color: #005bac;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    html[data-theme='dark'] form {
+      background-color: #005bac;
+      border-color: #cec408;
+     
+    }
+
+    html[data-theme='dark'] form label {
+      color: #ffffff;
+    }
+
+    html[data-theme='dark'] form input,
+    html[data-theme='dark'] form select,
+    html[data-theme='dark'] form textarea {
+      background-color: #2c3e50;
+      color: #ffffff;
+      border-color: #cec408;
+    }
+
+    html[data-theme='dark'] form input:focus,
+    html[data-theme='dark'] form select:focus,
+    html[data-theme='dark'] form textarea:focus {
+      box-shadow: 0 0 8px #000000;
+      border-color: #66a3ff;
+      background-color: #797a7a;
+    }
+
+    html[data-theme='dark'] form button[type="submit"] {
+      background-color: #2c3e50; 
+   
+    }
+
+    html[data-theme='dark'] form button[type="submit"]:hover,
+    html[data-theme='dark'] form button[type="submit"]:focus {
+      background-color: #2c3e50; 
+  
+    }
+
+    html[data-theme='dark'] footer {
+      background-color: #005bac;
+      color: #cfd8ff;
+      box-shadow: none;
+    }
+footer {
+  background-color: #004a8f;
+  color: #fff;
+  padding: 30px 20px;
+  font-size: 16px;
+  border-top: solid 8px #cec408;
+}
+
+footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* permite quebra suave em telas muito pequenas */
+  gap: 30px;
+}
+
+/* Cada coluna */
+footer .footer-col {
+  flex: 1 1 250px; /* largura mínima 250px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+/* Logo */
+footer .footer-logo img {
+  max-height: 60px;
+  width: auto;
+  border-radius: 30%;
+}
+
+/* Contatos */
+footer .footer-contato p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+footer .footer-contato i {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Redes sociais */
+footer .footer-redes {
+  display: flex;
+  gap: 15px;
+  
+}
+
+footer .footer-redes a {
+  color: #fff;
+  font-size: 15px;
+  transition: transform 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+footer .footer-redes a:hover {
+  transform: scale(1.2);
+  color: #cec408
+}
+
+/* Mobile suave */
+@media (max-width: 768px) {
+  footer .footer-col {
+    flex: 1 1 45%; /* duas colunas lado a lado */
+  }
+}
+
+@media (max-width: 480px) {
+  footer .footer-col {
+    flex: 1 1 100%; /* uma coluna por linha no celular pequeno */
+  }
+
+  footer .footer-redes a {
+    font-size: 24px; /* ícones um pouco menores */
+  }
+
+  footer .footer-contato p {
+    font-size: 14px; /* textos menores para caber */
+  }
+}
+
+
+/* Main/Formulário */
+main {
+  max-width: 600px;
+  margin: 3rem auto;
+  background-color: #005bac;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px #cec408;
+  color: #fff;
+  border-left: solid 8px #cec408;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1.4rem;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  color: #333;
+}
+
+textarea { min-height: 100px; }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #66a3ff;
+  background-color: #fff;
+}
+
+button[type="submit"] {
+  background-color: #008000;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+button[type="submit"]:hover {
+  background-color: #0e6424;
+}
+
+/* Modal */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+
+.modal-bg.active { display: flex; }
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.modal-content p {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.modal-content button {
+  background: #0e6424;
+  color: white;
+  padding: 0.8rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.modal-content button:hover { background: #0e6424; }
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.modal-close:hover { color: #333; }
+footer .footer-dev img {
+    height: 18px; /* Ícone do dev bem pequeno */
+} /*===================
+   CRÉDITO DESENVOLVEDOR
+========================= */
+footer .footer-dev {
+  width: 100%;
+  margin-top: 4px;
+  padding: 3px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 12px;
+  line-height: 1;
+
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+footer .footer-dev img {
+  height: 28px; /* visível e discreta */
+  width: auto;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+footer .footer-dev a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+footer .footer-dev a:hover {
+  color: #cec408;
+}
+
+/* =========================
+   SCROLLBAR PERSONALIZADA
+========================= */
+
+/* largura da barra */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* fundo da barra */
+::-webkit-scrollbar-track {
+  background: #004a8f; /* azul um pouco mais escuro */
+}
+
+/* "botão" que desliza */
+::-webkit-scrollbar-thumb {
+  background-color: #cec408; /* amarelo do site */
+  border-radius: 20px;
+  border: 2px solid #004a8f;
+}
+
+/* hover no botão */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #e6dc1a;
+}
+/* Modal Background */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-bg.active {
+  display: flex;
+}
+
+/* Conteúdo do Modal */
+.modal-content {
+  background: #ffffff;  /* TROQUEI A COR AQUI */
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 450px;
+  color: #000000;
+  text-align: center;
+  position: relative;
+  border-left: 6px solid #004a8f;
+}
+
+.modal-close {
+  background-color: #004a8f !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 18px !important;
+  width: 30px !important;
+  height: 30px !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.3s !important;
+}
+
+.modal-close:hover {
+  background-color: #003366 !important;
+}
+
+/* Botões do modal */
+#modal-ok,
+.modal-close {
+  background-color: #004a8f;  /* azul desejado */
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+/* Hover */
+#modal-ok:hover,
+.modal-close:hover {
+  background-color: #003366; /* azul mais escuro no hover */
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="Imagens/tudonossologo.png" alt="É tudo nosso" /></a>
+  </div>
+
+  <!-- Botão Hamburger -->
+ <button id="menu-toggle" aria-label="Abrir menu">
+  <span class="hamburger"></span>
+</button>
+
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="Inscricoes.html">Corrida</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="doacao.html">Doações</a></li>
+      <li><a href="voluntariado.html">Voluntariado</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main role="main">
+  <section class="voluntariado-info">
+    <h1>Cadastro de Voluntários</h1>
+    <form novalidate class="voluntario-card form-voluntario" autocomplete="off">
+      
+      <div class="form-group">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="exemplo@email.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required />
+      </div>
+
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required />
+      </div>
+
+      <div class="form-group">
+        <label for="rg">RG</label>
+        <input type="text" id="rg" name="rg" placeholder="Número do RG" required />
+      </div>
+
+      <div class="form-group">
+        <label for="data_nascimento">Data de Nascimento</label>
+        <input type="date" id="data_nascimento" name="data_nascimento" required />
+      </div>
+
+      <div class="form-group">
+        <label for="endereco">Endereço</label>
+        <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, cidade, estado" required />
+      </div>
+
+      <div class="form-group">
+        <label for="disponibilidade">Disponibilidade</label>
+        <input type="text" id="disponibilidade" name="disponibilidade" placeholder="Ex: Segunda, Quarta, Sábado" />
+      </div>
+
+      <div class="form-group">
+        <label for="observacoes">Conte-nos um pouco</label>
+        <textarea id="observacoes" name="observacoes" placeholder="Como você gostaria de nos ajudar?"></textarea>
+      </div>
+
+      <button type="submit" class="btn-doar">Enviar Cadastro</button>
+    </form>
+  </section>
+</main>
+
+<!-- Modal de confirmação -->
+<div class="modal-bg" id="form-modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <p id="modal-message"></p>
+    <button id="modal-ok">OK</button>
+  </div>
+</div>
+
+
+
+ <div class="modal-bg" id="form-modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <p id="modal-message">Mensagem do popup</p>
+  </div>
+</div> 
+
+<footer>
+  <div class="footer-container">
+    <!-- Logo -->
+    <div class="footer-col footer-logo">
+      <img src="Imagens/tudonossologo.png" alt="Logo É Tudo Nosso">
+      <p>&copy; É Tudo Nosso — Todos os direitos reservados.</p>
+    </div>
+
+    <!-- Contatos -->
+    <div class="footer-col footer-contato">
+      <p><i class="fas fa-map-marker-alt"></i> Rua Aristides Pires de Andrade, 92 - Itapecerica da Serra/SP</p>
+      <p><i class="fas fa-phone"></i> (11) 99563-7530</p>
+      <p><i class="fas fa-envelope"></i> espacotudonosso@gmail.com</p>
+    </div>
+
+    <!-- Redes -->
+    <div class="footer-col footer-redes">
+      <a href="#"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
+      <a href="#"><i class="fab fa-facebook"></i> tudonossosim</a>
+      <a href="#"><i class="fab fa-whatsapp"></i> (11) 99563-7530</a>
+    </div>
+
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+<div class="footer-dev">
+  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+</div>
+</footer>
+
+
+
+  <!-- Botão WhatsApp fixo -->
+<a href="https://wa.me/5511995637530" target="_blank" rel="noopener noreferrer" class="whatsapp-button" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+  <!-- Botão toggle tema -->
+  <button id="theme-toggle" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+    <i class="fas fa-moon"></i>
+  </button>
+  <button class="modal-close" id="modal-close">&times;</button>
+<button id="modal-ok">OK</button>
+<script>
+// ===== Menu Mobile =====
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.querySelector('nav ul');
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+  menuToggle.classList.toggle('active');
+  menuToggle.setAttribute('aria-label', navLinks.classList.contains('show') ? 'Fechar menu' : 'Abrir menu');
+});
+
+// ===== Tema Claro/Escuro =====
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+
+function updateIcon() {
+  themeToggle.innerHTML = html.getAttribute('data-theme') === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+
+themeToggle.addEventListener('click', () => {
+  const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateIcon();
+});
+
+html.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+updateIcon();
+
+// ===== Captura do formulário e modal =====
+const form = document.querySelector('.form-voluntario');
+const modal = document.getElementById('form-modal');
+const modalMessage = document.getElementById('modal-message');
+const modalClose = document.getElementById('modal-close');
+
+// Substitua pelo seu Web App URL do Apps Script
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSksfWE_kN-i3Zcz-gy9-XHNnrE9Pf8DWfTDkFJgmSn2pnQG0Mdezc5KMBCk8qMWAB0g/exec";
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Monta JSON
+  const formData = {
+    nome: document.getElementById('nome').value,
+    email: document.getElementById('email').value,
+    telefone: document.getElementById('telefone').value,
+    cpf: document.getElementById('cpf').value,
+    rg: document.getElementById('rg').value,
+    data_nascimento: document.getElementById('data_nascimento').value,
+    endereco: document.getElementById('endereco').value,
+    disponibilidade: document.getElementById('disponibilidade').value,
+    observacoes: document.getElementById('observacoes').value
+  };
+
+  // Envia para Apps Script
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    modalMessage.textContent = data.mensagem;
+    modal.classList.add('active');
+    if(data.status === "sucesso") form.reset();
+  })
+  .catch(error => {
+    console.error(error);
+    modalMessage.textContent = "Erro de conexão. Verifique sua internet.";
+    modal.classList.add('active');
+  });
+});
+
+// Fechar modal
+modalClose.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('active'); });
+
+// ===== Máscaras =====
+const cpfInput = document.getElementById('cpf');
+cpfInput.addEventListener('input', function() {
+  let v = this.value.replace(/\D/g, '').slice(0,11);
+  v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  this.value = v;
+});
+
+const rgInput = document.getElementById('rg');
+rgInput.addEventListener('input', function() {
+  let v = this.value.replace(/\D/g, '').slice(0,9);
+  v = v.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1})$/, '$1-$2');
+  this.value = v;
+});
+
+const telefoneInput = document.getElementById('telefone');
+telefoneInput.addEventListener('input', function() {
+  let v = this.value.replace(/\D/g, '').slice(0,11);
+  v = v.replace(/^(\d{2})(\d)/g, '($1) $2').replace(/(\d{5})(\d{4})$/, '$1-$2');
+  this.value = v;
+});
+
+// Fechar modal com X
+modalClose.addEventListener('click', () => modal.classList.remove('active'));
+
+// Fechar modal clicando fora
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+
+// Fechar modal com OK
+modalOk.addEventListener('click', () => modal.classList.remove('active'));
+</script>
+
+
+  
+</body>
+</html>

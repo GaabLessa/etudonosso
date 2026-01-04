@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="Imagens/favicon.jpg" type="image/jpeg">
+  <title>Login - Inscritos</title>
+  
+  <!-- ====== Seu CSS já incluído ====== -->
+  <style>
+    /* Coloque aqui todo o CSS que você me enviou */
+    /* ===== Estilo Base ===== */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #2c3e50;
+      margin: 0;
+      padding: 0;
+      color: #0d2a57;
+    }
+    header {
+      background-color: #005bac;
+      height: 140px;
+      padding: 0 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: solid 6px #cec408;
+    }
+    header h1 {
+      color: #fff;
+    }
+    main {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: #005bac;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      color: white;
+      border-left: solid 10px #cec408;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+    input[type=email], input[type=password] {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: solid 1px #005bac;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #005bac;
+      box-shadow: 0 0 5px rgba(0,91,172,0.5);
+    }
+    button {
+      background: #005bac;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #003d7a;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+  
+    .logo img {
+    max-height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+    font-size: 18px;
+  }
+
+  nav a:hover {
+    opacity: 0.8;
+    color: white;
+    border-bottom: 4px solid #cec408;
+  }
+/* Botão hamburger - inicialmente escondido */
+#menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;   /* Menor largura */
+  height: 24px;  /* Menor altura */
+  position: fixed; /* fixo para ficar no topo */
+  right: 20px; /* botão à direita */
+  z-index: 1100;
+  padding: 0;
+}
+
+/* Linhas do hamburger */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  display: block;
+  background-color: white;
+  height: 3px;
+  border-radius: 3px;
+  position: absolute;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Linha central */
+.hamburger {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Linha de cima */
+.hamburger::before {
+  top: 7px;
+  left: 0;
+}
+
+/* Linha de baixo */
+.hamburger::after {
+  bottom: 7px;
+  left: 0;
+}
+
+/* Quando ativo, muda a cor das linhas, sem transformar em X */
+#menu-toggle.active .hamburger,
+#menu-toggle.active .hamburger::before,
+#menu-toggle.active .hamburger::after {
+  background-color: #ffffff; /* amarelo bonito */
+}
+
+/* Estilos mobile */
+/* Menu lateral mobile */
+@media (max-width: 768px) {
+  nav ul {
+    display: none; /* esconde o menu padrão */
+    flex-direction: column;
+    background-color: #005bac;
+    position: fixed;
+    top: 60px; /* altura do header */
+    right: 0;
+    width: 200px;
+    height: auto; /* ajusta a altura ao conteúdo */
+    max-height: calc(100vh - 60px); /* não ultrapassa a tela */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: -3px 0 8px rgba(0,0,0,0.2);
+    overflow-y: auto; /* scroll caso ultrapasse altura da tela */
+    border-radius: 0 0 0 10px; /* cantinho arredondado só na lateral esquerda */
+    z-index: 1000;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li a {
+    color: white;
+    padding: 1rem 1.5rem;
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #cec408;
+    transition: background-color 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #005bac;
+    outline: none;
+    border-bottom: 5px solid #cec408;
+  }
+
+  /* Mostrar o botão hamburger no mobile */
+  #menu-toggle {
+    display: block;
+  }
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="Imagens/tudonossologo.png" alt="É tudo nosso" /></a>
+  </div>
+
+  <!-- Botão Hamburger -->
+ <button id="menu-toggle" aria-label="Abrir menu">
+  <span class="hamburger"></span>
+</button>
+
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="Inscricoes.html">Corrida</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="doacao.html">Doações</a></li>
+      <li><a href="voluntariado.html">Voluntariado</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2>Login Administrativo</h2>
+  <form id="loginForm">
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="admin@evento.com" required>
+    
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="SenhaForte123" required>
+    
+    <button type="submit">Entrar</button>
+  </form>
+  <div id="message"></div>
+</main>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    
+    const res = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: document.getElementById("email").value,
+        senha: document.getElementById("senha").value
+      })
+    });
+    
+    const messageDiv = document.getElementById("message");
+
+    if (res.ok) {
+      const data = await res.json();
+      localStorage.setItem("token", data.token);
+      messageDiv.style.color = "#2ecc71";
+      messageDiv.textContent = "Login efetuado com sucesso! Redirecionando...";
+      setTimeout(() => {
+        window.location.href = "inscritos.html";
+      }, 1000);
+    } else {
+      messageDiv.style.color = "#e74c3c";
+      messageDiv.textContent = "Email ou senha incorretos!";
+    }
+  });
+  /* ================= MENU MOBILE ================= */
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.querySelector('nav ul');
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+  menuToggle.classList.toggle('active');
+});
+
+</script>
+
+</body>
+</html>

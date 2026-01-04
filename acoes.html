@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cadastro de Voluntários - Voluntários do Bem</title>
+  <link rel="icon" href="Imagens/favicon.jpg" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ===== FONTES E RESET ===== */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+
+
+  header {
+    background-color: #005bac;
+    height: 140px;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: solid 6px #cec408;
+  }
+    .logo img {
+    max-height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+    font-size: 18px;
+  }
+
+  nav a:hover {
+    opacity: 0.8;
+    color: white;
+    border-bottom: 4px solid #cec408;
+  }
+
+    /* ===== HERO ===== */
+    .hero {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+
+    /* ===== FORMULÁRIO ===== */
+    form {
+      background-color: var(--form-bg);
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      max-width: 600px;
+      margin: 3rem auto;
+      color: var(--form-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: var(--input-bg);
+      color: var(--input-color);
+      font-size: 1rem;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    form input:focus, form select:focus, form textarea:focus {
+      border-color: #ffffff;
+      outline: none;
+    }
+
+    form button.btn {
+      display: block;
+      background-color: #ffffff;
+      color: #121212;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 0.85rem 0;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(255,255,255,0.7);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    form button.btn:hover {
+      box-shadow: 0 8px 20px rgba(255,255,255,0.85);
+    }
+
+/* ==== AÇÕES SOCIAIS (profissional) ==== */
+.acoes-sociais {
+  padding: 80px 20px;
+  text-align: center;
+  background: var(--acoes-bg);
+  color: var(--acoes-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+.acoes-sociais h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #005bac; /* Verde principal */
+}
+
+.acoes-sociais .intro {
+  max-width: 700px;
+  margin: 0 auto 50px auto;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--acoes-intro-color);
+}
+
+.acoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.acao-card {
+  background: var(--acao-card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--acao-card-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: solid 10px #cec408;
+}
+
+.acao-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--acao-card-hover-shadow);
+  border-bottom: solid 10px #cec408;
+}
+
+.acao-imagem {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.acao-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.acao-card:hover .acao-imagem img {
+  transform: scale(1.08);
+}
+
+.acao-conteudo {
+  padding: 20px;
+  text-align: left;
+}
+
+.acao-conteudo h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  color: var(--acao-card-title-color);
+}
+
+.acao-conteudo p {
+  font-size: 1.05rem;
+  color: var(--acao-card-text-color);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.acao-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #ffffff; /* Verde */
+  color: #000000;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+  
+}
+
+.acao-btn:hover {
+  background: #ffffff; /* Verde mais escuro */
+  transform: scale(1.05);
+  border-bottom: solid 6px #cec408;
+}
+
+/* ===== VARIÁVEIS DE COR PARA MODO CLARO/EU ===== */
+html[data-theme='light'] {
+  --acoes-bg: #ffffff;
+  --acoes-color: #222;
+  --acoes-intro-color: #000000;
+  --acao-card-bg: #fff;
+  --acao-card-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  --acao-card-hover-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  --acao-card-title-color: #ffffff;
+  --acao-card-text-color: #ffffff;
+}
+
+html[data-theme='dark'] {
+  --acoes-bg: #111;
+  --acoes-color: #fff;
+  --acoes-intro-color: #ddd;
+  --acao-card-bg: #1a1a1a;
+  --acao-card-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  --acao-card-hover-shadow: 0 12px 32px rgba(0,0,0,0.8);
+  --acao-card-title-color: #fff;
+  --acao-card-text-color: #ffffff;
+}
+
+footer {
+  background-color: #004a8f;
+  color: #fff;
+  padding: 30px 20px;
+  font-size: 16px;
+  border-top: solid 8px #cec408;
+}
+
+footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* permite quebra suave em telas muito pequenas */
+  gap: 30px;
+}
+
+/* Cada coluna */
+footer .footer-col {
+  flex: 1 1 250px; /* largura mínima 250px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+/* Logo */
+footer .footer-logo img {
+  max-height: 60px;
+  width: auto;
+  border-radius: 30%;
+}
+
+/* Contatos */
+footer .footer-contato p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+footer .footer-contato i {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Redes sociais */
+footer .footer-redes {
+  display: flex;
+  gap: 15px;
+  
+}
+
+footer .footer-redes a {
+  color: #fff;
+  font-size: 15px;
+  transition: transform 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+footer .footer-redes a:hover {
+  transform: scale(1.2);
+  color: #cec408
+}
+
+/* Mobile suave */
+@media (max-width: 768px) {
+  footer .footer-col {
+    flex: 1 1 45%; /* duas colunas lado a lado */
+  }
+}
+
+@media (max-width: 480px) {
+  footer .footer-col {
+    flex: 1 1 100%; /* uma coluna por linha no celular pequeno */
+  }
+
+  footer .footer-redes a {
+    font-size: 24px; /* ícones um pouco menores */
+  }
+
+  footer .footer-contato p {
+    font-size: 14px; /* textos menores para caber */
+  }
+}
+
+    /* ===== VARIÁVEIS DE COR PARA MODO ===== */
+    html[data-theme='light'] {
+      --form-bg: #b6d9f8;
+      --form-color: #222;
+      --input-bg: #ffffff;
+      --input-color: #fff;
+      --acoes-bg: #b6d9f8;
+      --acoes-color: #d4d6d4;
+      --acao-card-bg: #005bac;
+      --acao-card-color: #111;
+      --acao-card-p-color: #ffffff;
+    }
+
+    html[data-theme='dark'] {
+      --form-bg: #1c1c1c;
+      --form-color: #fff;
+      --input-bg: #585858;
+      --input-color: #fff;
+      --acoes-bg: #2c3e50;
+      --acoes-color: #fff;
+      --acao-card-bg: #005bac;
+      --acao-card-color: #fff;
+      --acao-card-p-color: #ccc;
+    }
+       /* Estilos base do nav */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botão hamburger - inicialmente escondido */
+#menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;   /* Menor largura */
+  height: 24px;  /* Menor altura */
+  position: fixed; /* fixo para ficar no topo */
+  right: 20px; /* botão à direita */
+  z-index: 1100;
+  padding: 0;
+}
+
+/* Linhas do hamburger */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  display: block;
+  background-color: white;
+  height: 3px;
+  border-radius: 3px;
+  position: absolute;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Linha central */
+.hamburger {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Linha de cima */
+.hamburger::before {
+  top: 7px;
+  left: 0;
+}
+
+/* Linha de baixo */
+.hamburger::after {
+  bottom: 7px;
+  left: 0;
+}
+
+/* Quando ativo, muda a cor das linhas, sem transformar em X */
+#menu-toggle.active .hamburger,
+#menu-toggle.active .hamburger::before,
+#menu-toggle.active .hamburger::after {
+  background-color: #ffffff; /* amarelo bonito */
+}
+
+/* Estilos mobile */
+/* Menu lateral mobile */
+@media (max-width: 768px) {
+  nav ul {
+    display: none; /* esconde o menu padrão */
+    flex-direction: column;
+    background-color: #005bac;
+    position: fixed;
+    top: 60px; /* altura do header */
+    right: 0;
+    width: 200px;
+    height: auto; /* ajusta a altura ao conteúdo */
+    max-height: calc(100vh - 60px); /* não ultrapassa a tela */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: -3px 0 8px rgba(0,0,0,0.2);
+    overflow-y: auto; /* scroll caso ultrapasse altura da tela */
+    border-radius: 0 0 0 10px; /* cantinho arredondado só na lateral esquerda */
+    z-index: 1000;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li a {
+    color: white;
+    padding: 1rem 1.5rem;
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #005bac;
+    outline: none;
+    border-bottom: solid 6px #cec408;
+  }
+
+  /* Mostrar o botão hamburger no mobile */
+  #menu-toggle {
+    display: block;
+  }
+}
+       /* Botão toggle tema */
+    #theme-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #005bac;
+      color: #fff;
+      border: none;
+      font-size: 1.3rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      z-index: 9999;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    #theme-toggle:hover,
+    #theme-toggle:focus {
+      background-color: #005bac;
+      color: #cec408;
+      outline: none;
+    }
+    
+    /* Botão WhatsApp fixo */
+    .whatsapp-button {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: #005bac;
+      color: white;
+      font-size: 28px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #005bac;
+      text-decoration: none;
+      color: #cec408;
+    }
+
+    footer .footer-dev img {
+    height: 18px; /* Ícone do dev bem pequeno */
+} /*===================
+   CRÉDITO DESENVOLVEDOR
+========================= */
+footer .footer-dev {
+  width: 100%;
+  margin-top: 4px;
+  padding: 3px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 12px;
+  line-height: 1;
+
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+footer .footer-dev img {
+  height: 28px; /* visível e discreta */
+  width: auto;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+footer .footer-dev a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+footer .footer-dev a:hover {
+  color: #cec408;
+}
+
+  </style>
+
+</head>
+<body>
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="Imagens/tudonossologo.png" alt="É tudo nosso" /></a>
+  </div>
+
+  <!-- Botão Hamburger -->
+ <button id="menu-toggle" aria-label="Abrir menu">
+  <span class="hamburger"></span>
+</button>
+
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="Inscricoes.html">Corrida</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="doacao.html">Doações</a></li>
+      <li><a href="voluntariado.html">Voluntariado</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="acoes-sociais" class="acoes-sociais">
+  <div class="container">
+    <h2>Nossas Ações Sociais</h2>
+    <p class="intro">
+        acreditamos no poder do esporte e da cultura para transformar vidas. 
+      Conheça nossos principais projetos, que acolhem crianças e jovens da comunidade, 
+      oferecendo oportunidades de crescimento, disciplina e inclusão.
+    </p>
+    
+    <div class="acoes-grid">
+      
+      <!-- Futebol -->
+      <div class="acao-card">
+        <div class="acao-imagem">
+          <img src="Imagens/futebol.jpg" alt="Time de Futebol">
+        </div>
+        <div class="acao-conteudo">
+          <h3>Time de Futebol</h3>
+          <p>
+            Nosso time de futebol é mais do que esporte: é inclusão social e trabalho em equipe.
+            Crianças e adolescentes participam de treinos regulares, jogos e campeonatos que estimulam 
+            disciplina, respeito e superação dentro e fora de campo.
+          </p>
+          <a href="#" class="acao-btn">Saiba Mais</a>
+        </div>
+      </div>
+      
+      <!-- Judô -->
+      <div class="acao-card">
+        <div class="acao-imagem">
+          <img src="Imagens/artesmarciais.jpg" alt="Judô">
+        </div>
+        <div class="acao-conteudo">
+          <h3>Artes marciais</h3>
+          <p>
+           As aulas de artes marciais desenvolvem disciplina, respeito e confiança. Além de contribuir para a saúde física, o projeto ensina valores como coragem, humildade e autocontrole. Com práticas como Judô, Jiu-Jitsu e Taekwondo, as crianças e jovens aprendem a se fortalecer tanto no corpo quanto no caráter, preparando-se para enfrentar os desafios da vida com equilíbrio e determinação.
+          </p>
+          <a href="#" class="acao-btn">Saiba Mais</a>
+        </div>
+      </div>
+      
+      <!-- Balé -->
+      <div class="acao-card">
+        <div class="acao-imagem">
+          <img src="Imagens/bale.jpg" alt="Balé">
+        </div>
+        <div class="acao-conteudo">
+          <h3>Balé</h3>
+          <p>
+            O projeto de balé é uma oportunidade única para o desenvolvimento artístico e pessoal. 
+            A dança contribui para a autoestima, postura e sensibilidade artística, em um ambiente 
+            acolhedor e inclusivo que inspira sonhos e novas possibilidades.
+          </p>
+          <a href="#" class="acao-btn">Saiba Mais</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  
+<footer>
+  <div class="footer-container">
+    <!-- Logo -->
+    <div class="footer-col footer-logo">
+      <img src="Imagens/tudonossologo.png" alt="Logo É Tudo Nosso">
+      <p>&copy; É Tudo Nosso — Todos os direitos reservados.</p>
+    </div>
+
+    <!-- Contatos -->
+    <div class="footer-col footer-contato">
+      <p><i class="fas fa-map-marker-alt"></i> Rua Aristides Pires de Andrade, 92 - Itapecerica da Serra/SP</p>
+      <p><i class="fas fa-phone"></i> (11) 99563-7530</p>
+      <p><i class="fas fa-envelope"></i> espacotudonosso@gmail.com</p>
+    </div>
+
+    <!-- Redes -->
+    <div class="footer-col footer-redes">
+      <a href="#"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
+      <a href="#"><i class="fab fa-facebook"></i> tudonossosim</a>
+      <a href="#"><i class="fab fa-whatsapp"></i> (11) 99563-7530</a>
+    </div>
+
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+<div class="footer-dev">
+  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+</div>
+</footer>
+
+<a href="https://wa.me/5511995637530" target="_blank" rel="noopener noreferrer" class="whatsapp-button" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+  <!-- Botão toggle tema -->
+  <button id="theme-toggle" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <script>
+    // Menu Mobile
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.querySelector('nav ul');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      if(navLinks.classList.contains('show')) {
+        menuToggle.setAttribute('aria-label', 'Fechar menu');
+      } else {
+        menuToggle.setAttribute('aria-label', 'Abrir menu');
+      }
+    });
+
+    // Tema Claro/Escuro
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    function updateIcon() {
+      if (html.getAttribute('data-theme') === 'dark') {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // ícone sol para escuro
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; // ícone lua para claro
+      }
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon();
+    });
+
+    // Ao carregar, aplicar tema salvo no localStorage (ou padrão dark)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      html.setAttribute('data-theme', savedTheme);
+    } else {
+      html.setAttribute('data-theme', 'dark');
+    }
+    updateIcon();
+  </script>
+</body>
+</html>

@@ -1,0 +1,754 @@
+/* ===== Reset básico ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --bg: #b6b9c4;
+  --text: #000000;
+  --primary: #7d159c;
+  --secondary: #f39c12;
+  --accent: #28a745;
+  --card-bg: #ffffff;
+  --input-bg: #fff;
+  --border: #0289f7;
+  --footer-bg: #7d159c;
+}
+[data-theme="dark"] {
+  --bg: #121212;
+  --text: #eee;
+  --primary: #7d159c;
+  --secondary: #f39c12;
+  --accent: #28a745;
+  --card-bg: #1e1e1e;
+  --input-bg: #2c2c2c;
+  --border: #0289f7;
+  --footer-bg: #7d159c;
+  
+}
+
+/* ===== Corpo ===== */
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 19px;
+  min-height: 100vh;
+}
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0289f7;
+  padding: 15px 5vw;
+  border-bottom: 3px solid rgb(188, 1, 245);;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo img {
+  height: auto;
+  max-height: 100px;
+  max-width: 220px;
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+}
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Navegação ===== */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  font-size: 19px;
+  position: relative;
+}
+nav a {
+  position: relative;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: color 0.3s ease;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #c602f7;
+  transition: width 0.3s ease;
+}
+nav a:hover::after {
+  width: 100%;
+}
+
+.hero {
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  height: auto;
+  margin-bottom: 3rem;
+}
+
+/* Borda arco-íris fixa */
+.rainbow-border {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  padding: 6px;
+  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+  border-radius: 0;
+  display: block;
+  box-sizing: border-box;
+}
+
+.rainbow-border img {
+  width: 100%;
+  max-height: 600px;
+  object-fit: cover;
+  filter: brightness(65%);
+  border-radius: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: block;
+}
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 0 1rem;
+  text-shadow: 1px 1px 8px rgba(0,0,0,0.8);
+  color: white;
+}
+.hero-text h1 {
+  font-size: 30px;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+/* ===== Botões ===== */
+.btn,
+.btn:visited,
+.btn:active,
+input[type="submit"].btn {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 28px;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  text-transform: uppercase;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+  opacity: 0.95;
+}
+
+.purple {
+  background-color: var(--primary);
+  border: 2px solid transparent;
+}
+.orange {
+  background-color: var(--secondary);
+  border: 2px solid transparent;
+}
+
+/* ===== Seções ===== */
+section {
+  padding: 3rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+/* ===== Títulos modo claro ===== */
+h1, h2, h3{
+  color: #0289f7;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* ===== Títulos modo escuro ===== */
+[data-theme="dark"] h1{
+  color: white;
+}
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
+  color: rgba(155, 16, 197, 0.945);
+}
+[data-theme="dark"] p{
+  color: white;
+}
+
+
+
+/* ===== Seção Formas de Doar ===== */
+.formas-doar {
+  background-color: #0289f7;
+  border: 5px solid rgba(188, 1, 245, 0.979);
+  padding: 5rem 3rem;
+  max-width: 1100px;
+  margin: 4rem auto;
+  border-radius: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
+  color: #222;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+
+}
+.formas-doar h2{
+  color: white;
+}
+.formas-doar p {
+  color: white;
+}
+
+/* Fundo "glow" animado - pseudo elemento */
+.formas-doar::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(circle at center, #1900ff55,);
+  filter: blur(100px);
+  animation: glowMove 8s linear infinite;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+@keyframes glowMove {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Cards container com grid mais espaçado */
+.formas-doar .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
+  margin-top: 3rem;
+}
+
+/* Estilo dos cards */
+.formas-doar .card {
+  background-color: #fff;
+  border-radius: 22px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* "Neon" border animado no hover */
+.formas-doar .card::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: -3px;
+  right: -3px;
+  border-radius: 22px;
+  border: 3px solid transparent;
+  background: linear-gradient(270deg, #7d159c, #f39c12, #7d159c);
+  background-size: 600% 600%;
+  animation: neonBorder 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.formas-doar .card:hover::before {
+  opacity: 1;
+}
+
+@keyframes neonBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.formas-doar .card:hover {
+  transform: translateY(-14px) scale(1.05);
+  box-shadow: 0 28px 60px rgba(201, 153, 216, 0.25);
+  color: #0289f7;
+}
+
+/* Imagem */
+.formas-doar .card img {
+  width: 90px;
+  margin-bottom: 1.6rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(188, 3, 245, 0.15);
+  transition: box-shadow 0.4s ease, filter 0.4s ease;
+}
+
+.formas-doar .card:hover img {
+  box-shadow: 0 10px 40px rgba(188, 1, 245, 0.5);
+  filter: saturate(1.3) brightness(1.1);
+}
+
+/* Link dentro do card */
+.card-link {
+  margin-top: auto;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0289f7;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.card-link:hover {
+  border-color: #ac0303
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 768px) {
+  .formas-doar {
+    padding: 3rem 2rem;
+  }
+  .formas-doar .cards {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+
+
+/* ===== Footer ===== */
+footer {
+  background-color: rgb(188, 1, 245);
+  color: #fff;
+  padding: 25px 15px;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+/* ===== Botão alternância tema ===== */
+#theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgb(188, 1, 245);
+  color: white;
+  border: none;
+  font-size: 1.3rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  transition: all 0.2s ease-in-out;
+  z-index: 9999;
+}
+#theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+}
+
+/* ===== Botão WhatsApp ===== */
+.whatsapp-button {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background-color: #0289f7;
+  color: white;
+  font-size: 28px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+.whatsapp-button:hover {
+  transform: scale(1.1);
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 1024px) {
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+}
+.doacoes {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: var(--bg);
+}
+
+
+.doacoes p {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grade de cards */
+.doacoes .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* Estilo dos cards */
+.doacoes .card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.doacoes .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Imagens dos ícones */
+.doacoes .card img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  padding: 15px;
+  border-radius: 14px;
+  background-color: #ffffffcc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doacoes .card img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Títulos dos cards */
+.doacoes .card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #7d159c;
+  margin-bottom: 0.5rem;
+}
+
+/* Parágrafo dos cards */
+.doacoes .card p {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .doacoes .card img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .doacoes .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .doacoes p {
+    font-size: 1rem;
+  }
+}
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+.btn {
+  position: relative;
+  display: inline-block;
+  padding: 16px 36px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  background-size: 200% auto;
+  transition: all 0.35s ease-in-out;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+}
+
+/* BRILHO animado ao passar o mouse */
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: skewX(-20deg);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+/* Botão roxo elegante */
+.btn-purple {
+  background-image: linear-gradient(135deg, #0289f7, #093dad);
+}
+
+/* Botão laranja elegante */
+.btn-orange {
+  background-image: linear-gradient(135deg, #f39c12, #f1c40f);
+}
+
+/* Efeito no hover */
+.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+}
+:root {
+  /* Cores modo claro */
+  --bg-card: #222;
+  --text-card: #ffffff;
+  --primary-color: #3615c9;
+  --purple-shadow: rgba(9, 7, 172, 0.5);
+  --orange-shadow: rgba(13, 43, 214, 0.5);
+  --text-secondary: #ffffff;
+  --btn-shadow: rgba(0, 0, 0, 0.15);
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
+  --btn-shadow-hover: rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme='dark'] {
+  --bg-card: #222;
+  --text-card: white;
+  --primary-color:  #3615c9;
+  --purple-shadow: rgba(9, 7, 172, 0.5);
+  --orange-shadow: rgba(13, 43, 214, 0.5);
+  --text-secondary: #ffffff;
+  --btn-shadow: rgba(0, 0, 0, 0.6);
+  --card-shadow: rgba(0, 0, 0, 0.8);
+  --card-shadow-hover: rgba(0, 0, 0, 0.9);
+  --btn-shadow-hover: rgba(0, 0, 0, 0.8);
+}
+
+/* Botões Doação */
+.btn-doacao {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 15px var(--btn-shadow);
+  user-select: none;
+  letter-spacing: 0.03em;
+  color: white;
+}
+
+.purple-doacao {
+  background: rgba(188, 1, 245, 0.5);
+  box-shadow: 0 6px 18px var(--purple-shadow);
+}
+
+.orange-doacao {
+  background:  rgba(188, 1, 245, 0.5);
+  box-shadow: 0 6px 18px var(--orange-shadow);
+}
+
+.btn-doacao:hover,
+.btn-doacao:focus {
+  transform: scale(1.07);
+  box-shadow: 0 10px 30px var(--btn-shadow-hover);
+  outline: none;
+}
+
+.btn-doacao:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px var(--btn-shadow);
+}
+
+/* Container dos cards */
+.cards-doacao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+}
+
+/* Cartões */
+.card-doacao {
+  background: var(--bg-card);
+  color:white;
+  border-radius: 22px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 14px 35px var(--card-shadow);
+  text-align: center;
+  max-width: 350px;
+  flex: 1 1 320px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid rgba(188, 1, 245, 0.5);
+}
+
+.card-doacao img {
+  max-width: 110px;
+  margin-bottom: 1.2rem;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.1));
+}
+
+.card-doacao h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.card-doacao p {
+  margin-bottom: 1.3rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: white;
+  flex-grow: 1;
+}
+
+.card-doacao:hover,
+.card-doacao:focus-within {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 55px var(--card-shadow-hover);
+  cursor: default;
+}

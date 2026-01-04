@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale= 0.9">
+<meta charset="UTF-8">
+<title>Inscritos</title>
+<link rel="icon" href="Imagens/favicon.jpg" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #2c3e50; /* Fundo azul */
+    margin: 0;
+    color: #ffffff;
+  }
+
+  header {
+    background-color: #005bac;
+    height: 140px;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: solid 6px #cec408;
+  }
+
+  .logo img {
+    max-height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+    font-size: 18px;
+    
+  }
+
+  nav a:hover {
+    opacity: 0.8;
+      border-bottom: solid 6px #cec408;
+  }
+
+  h1 {
+    text-align: center;
+    color: #fff;
+    margin: 20px 0;
+  }
+
+  .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px auto;
+    justify-content: center;
+  }
+
+  .filters-container input,
+  .filters-container select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #1a3f6b;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    min-width: 180px;
+  }
+
+  .filters-container input:focus,
+  .filters-container select:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+
+  .count-info {
+    text-align: center;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  #cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* duas colunas */
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: #005bac;
+    border-radius: 15px;
+    padding: 20px;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-left: 10px solid #cec408;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+  }
+
+  .card h3 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border-bottom: 4px solid #cec408;
+    padding-bottom: 5px;
+  }
+
+  .card p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .card p i {
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+    color: #c7bd07;
+  }
+
+  .card p span {
+    font-weight: bold;
+    margin-right: 5px;
+    width: 100px;
+  }
+
+  /* Paginação */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+  }
+
+  .pagination button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #fff;
+    color: #3498db;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .pagination button.active {
+    background: #3498db;
+    color: #fff;
+  }
+
+  .pagination button:hover:not(.active) {
+    background: #1a5e9a;
+    color: #fff;
+  }
+
+  /* Responsivo */
+  @media(max-width: 900px) {
+    #cards-container {
+      grid-template-columns: 1fr; /* uma coluna no mobile */
+    }
+  }
+
+  @media(max-width: 600px){
+    .filters-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+footer {
+  margin-top: 10px;
+  background-color: #004a8f;
+  color: #fff;
+  padding: 30px 20px;
+  font-size: 16px;
+  border-top: solid 8px #cec408;
+}
+
+footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* permite quebra suave em telas muito pequenas */
+  gap: 30px;
+}
+
+/* Cada coluna */
+footer .footer-col {
+  flex: 1 1 250px; /* largura mínima 250px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+/* Logo */
+footer .footer-logo img {
+  max-height: 60px;
+  width: auto;
+  border-radius: 30%;
+}
+
+/* Contatos */
+footer .footer-contato p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+footer .footer-contato i {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Redes sociais */
+footer .footer-redes {
+  display: flex;
+  gap: 15px;
+  
+}
+
+footer .footer-redes a {
+  color: #fff;
+  font-size: 15px;
+  transition: transform 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+footer .footer-redes a:hover {
+  transform: scale(1.2);
+  color: #cec408
+}
+
+/* Mobile suave */
+@media (max-width: 768px) {
+  footer .footer-col {
+    flex: 1 1 45%; /* duas colunas lado a lado */
+  }
+}
+
+@media (max-width: 480px) {
+  footer .footer-col {
+    flex: 1 1 100%; /* uma coluna por linha no celular pequeno */
+  }
+
+  footer .footer-redes a {
+    font-size: 24px; /* ícones um pouco menores */
+  }
+
+  footer .footer-contato p {
+    font-size: 14px; /* textos menores para caber */
+  }
+}
+footer .footer-dev img {
+    height: 18px; /* Ícone do dev bem pequeno */
+} /*===================
+   CRÉDITO DESENVOLVEDOR
+========================= */
+footer .footer-dev {
+  width: 100%;
+  margin-top: 4px;
+  padding: 3px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 12px;
+  line-height: 1;
+
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+footer .footer-dev img {
+  height: 28px; /* visível e discreta */
+  width: auto;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+footer .footer-dev a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+footer .footer-dev a:hover {
+  color: #cec408;
+}
+
+
+
+
+/* largura da barra */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* fundo da barra */
+::-webkit-scrollbar-track {
+  background: #004a8f; /* azul um pouco mais escuro */
+}
+
+/* "botão" que desliza */
+::-webkit-scrollbar-thumb {
+  background-color: #cec408; /* amarelo do site */
+  border-radius: 20px;
+  border: 2px solid #004a8f;
+}
+
+/* hover no botão */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #e6dc1a;
+}
+.btn-logout {
+  background: #005bac;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: #003d7a;
+}
+/* Botão de excluir */
+.btn-excluir {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-excluir:hover {
+  background-color: #c0392b;
+}
+
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="Imagens/tudonossologo.png" alt="Logo Voluntários do Bem" /></a>
+  </div>
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="doacao.html">Doações</a></li>
+      <li><a href="voluntariado.html">Voluntariado</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+   <button class="btn-logout" onclick="logout()">Sair</button>
+</header>
+
+<h1>Inscrições da Corrida</h1>
+
+<div class="filters-container">
+  <input type="text" id="search-input" placeholder="Buscar por nome, email ou CPF..." />
+  <select id="filter-modalidade">
+    <option value="">Todas as modalidades</option>
+    <option value="4km">4km</option>
+    <option value="8km">8km</option>
+  </select>
+  <select id="filter-sexo">
+    <option value="">Todos os sexos</option>
+    <option value="m">Masculino</option>
+    <option value="f">Feminino</option>
+    <option value="outro">Outro</option>
+  </select>
+  <select id="filter-tamanho">
+    <option value="">Todos os tamanhos</option>
+    <option value="P">P</option>
+    <option value="M">M</option>
+    <option value="G">G</option>
+    <option value="GG">GG</option>
+  </select>
+  <select id="filter-idade">
+    <option value="">Todas as idades</option>
+    <option value="crianca">Crianças (0-12)</option>
+    <option value="adolescente">Adolescentes (13-17)</option>
+    <option value="adulto">Adultos (18-59)</option>
+    <option value="idoso">Idosos (60+)</option>
+  </select>
+</div>
+
+<div class="count-info" id="count-info">Total de inscrições: 0</div>
+
+<div id="cards-container"></div>
+
+<div class="pagination" id="pagination"></div>
+<footer>
+  <div class="footer-container">
+    <!-- Logo -->
+    <div class="footer-col footer-logo">
+      <img src="Imagens/tudonossologo.png" alt="Logo É Tudo Nosso">
+      <p>&copy; É Tudo Nosso — Todos os direitos reservados.</p>
+    </div>
+
+    <!-- Contatos -->
+    <div class="footer-col footer-contato">
+      <p><i class="fas fa-map-marker-alt"></i> Rua Aristides Pires de Andrade, 92 - Itapecerica da Serra/SP</p>
+      <p><i class="fas fa-phone"></i> (11) 99563-7530</p>
+      <p><i class="fas fa-envelope"></i> espacotudonosso@gmail.com</p>
+    </div>
+
+    <!-- Redes -->
+    <div class="footer-col footer-redes">
+      <a href="#"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
+      <a href="#"><i class="fab fa-facebook"></i> tudonossosim</a>
+      <a href="#"><i class="fab fa-whatsapp"></i> (11) 99563-7530</a>
+    </div>
+<!-- O resto do seu container de cards -->
+<div id="cards-container"></div>
+
+<div id="count-info" style="margin-top: 15px; color:white; font-weight:600;"></div>
+<div id="pagination" style="margin-top:15px; display:flex; gap:5px;"></div>
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+<div class="footer-dev">
+  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+</div>
+</footer>
+
+
+<script>
+// =========================
+// Verifica se o token JWT existe
+// =========================
+const token = localStorage.getItem("token");
+if (!token) {
+  alert("Você precisa fazer login para acessar esta página");
+  window.location.href = "login.html";
+}
+
+// =========================
+// Seleção do DOM
+// =========================
+const searchInput = document.getElementById("search-input");
+const filterModalidade = document.getElementById("filter-modalidade");
+const filterSexo = document.getElementById("filter-sexo");
+const filterTamanho = document.getElementById("filter-tamanho");
+const filterIdade = document.getElementById("filter-idade");
+const cardsContainer = document.getElementById("cards-container");
+const countInfo = document.getElementById("count-info");
+const pagination = document.getElementById("pagination");
+
+let inscricoes = []; 
+const itemsPerPage = 6;
+let currentPage = 1;
+
+// =========================
+// Função para calcular idade
+// =========================
+function calcularIdade(data) {
+  const hoje = new Date();
+  const nascimento = new Date(data);
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const m = hoje.getMonth() - nascimento.getMonth();
+  if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) idade--;
+  return idade;
+}
+
+// =========================
+// Renderizar cards
+// =========================
+function renderCards(array, page = 1) {
+  cardsContainer.innerHTML = "";
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedItems = array.slice(start, end);
+
+  paginatedItems.forEach(i => {
+    const idade = calcularIdade(i.data_nascimento);
+    const numero = i.numero_inscricao ?? i.id; // fallback caso numero_inscricao não exista
+
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    card.innerHTML = `
+      <h3>#${numero} - ${i.nome}</h3>
+      <p><i class="fas fa-envelope"></i> <span>Email:</span> ${i.email}</p>
+      <p><i class="fas fa-id-card"></i> <span>CPF:</span> ${i.cpf}</p>
+      <p><i class="fas fa-phone"></i> <span>Telefone:</span> ${i.telefone}</p>
+      <p><i class="fas fa-route"></i> <span>Modalidade:</span> ${i.modalidade}</p>
+      <p><i class="fas fa-venus-mars"></i> <span>Sexo:</span> ${i.sexo}</p>
+      <p><i class="fas fa-tshirt"></i> <span>Camisa:</span> ${i.tamanho_camisa}</p>
+      <p><i class="fas fa-birthday-cake"></i> <span>Idade:</span> ${idade} anos</p>
+      <button class="btn-excluir" onclick="apagarInscricao(${i.id})">Excluir</button>
+    `;
+    cardsContainer.appendChild(card);
+  });
+
+  countInfo.textContent = `Total de inscrições: ${array.length}`;
+  renderPagination(array.length, page);
+}
+
+// =========================
+// Apagar inscrição
+// =========================
+async function apagarInscricao(id) {
+  if (!confirm("Tem certeza que deseja apagar esta inscrição?")) return;
+
+  try {
+    const res = await fetch(`http://localhost:3000/inscricoes/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Verifica se deu certo
+    if (!res.ok) {
+      const text = await res.text();
+      let msg = "Erro desconhecido";
+      try { msg = JSON.parse(text).erro; } catch(e) { msg = text; }
+      throw new Error(msg);
+    }
+
+    const data = await res.json();
+    alert(data.mensagem);
+    await loadInscricoes();
+  } catch (err) {
+    console.error("Erro ao apagar inscrito:", err);
+    alert("Erro ao apagar inscrito: " + err.message);
+  }
+}
+
+// =========================
+// Filtros e busca
+// =========================
+function applyFilters() {
+  const filtered = filteredInscricoes();
+  currentPage = 1;
+  renderCards(filtered, currentPage);
+}
+
+function filteredInscricoes() {
+  const busca = searchInput.value.toLowerCase().trim();
+  let filtered = inscricoes;
+
+  if (filterModalidade.value) filtered = filtered.filter(i => i.modalidade === filterModalidade.value);
+  if (filterSexo.value) filtered = filtered.filter(i => i.sexo === filterSexo.value);
+  if (filterTamanho.value) filtered = filtered.filter(i => i.tamanho_camisa === filterTamanho.value);
+  if (filterIdade.value) {
+    filtered = filtered.filter(i => {
+      const idade = calcularIdade(i.data_nascimento);
+      if (filterIdade.value === 'crianca') return idade <= 12;
+      if (filterIdade.value === 'adolescente') return idade >= 13 && idade <= 17;
+      if (filterIdade.value === 'adulto') return idade >= 18 && idade <= 59;
+      if (filterIdade.value === 'idoso') return idade >= 60;
+      return true;
+    });
+  }
+
+  if(busca) {
+    filtered = filtered.filter(i =>
+      i.nome.toLowerCase().includes(busca) ||
+      i.email.toLowerCase().includes(busca) ||
+      i.cpf.includes(busca)
+    );
+  }
+
+  return filtered;
+}
+
+// =========================
+// Paginação
+// =========================
+function renderPagination(totalItems, page) {
+  pagination.innerHTML = "";
+  const totalPages = Math.ceil(totalItems/itemsPerPage);
+  const filtered = filteredInscricoes();
+
+  for(let i=1;i<=totalPages;i++){
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    if(i === page) btn.classList.add("active");
+    btn.addEventListener("click", () => {
+      currentPage = i;
+      renderCards(filtered, currentPage);
+    });
+    pagination.appendChild(btn);
+  }
+}
+
+// =========================
+// Eventos filtros
+// =========================
+searchInput.addEventListener("input", applyFilters);
+filterModalidade.addEventListener("change", applyFilters);
+filterSexo.addEventListener("change", applyFilters);
+filterTamanho.addEventListener("change", applyFilters);
+filterIdade.addEventListener("change", applyFilters);
+
+// =========================
+// Carrega inscrições
+// =========================
+async function loadInscricoes() {
+  try {
+    const res = await fetch("http://localhost:3000/inscricoes", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) {
+      // Remove token inválido e força login
+      localStorage.removeItem("token");
+      throw new Error("Não autorizado");
+    }
+
+    inscricoes = await res.json();
+    renderCards(inscricoes, currentPage);
+  } catch(err) {
+    console.error("Erro ao carregar inscrições:", err);
+    cardsContainer.innerHTML = "<p style='color:white;'>Erro ao carregar inscrições 😢</p>";
+    alert("Acesso negado. Faça login novamente.");
+    window.location.href = "login.html";
+  }
+}
+
+loadInscricoes();
+
+// =========================
+// Logout
+// =========================
+document.querySelector(".btn-logout").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>

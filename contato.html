@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cadastro de Voluntários - Voluntários do Bem</title>
+  <link rel="icon" href="Imagens/nerdcon_favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #b6d9f8; /* Fundo azul */
+    margin: 0;
+    color: #ffffff;
+  }
+
+
+  header {
+    background-color: #005bac;
+    height: 140px;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: solid 6px #cec408;
+  }
+
+  .logo img {
+    max-height: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+    font-size: 18px;
+  }
+
+  nav a:hover {
+    opacity: 0.8;
+  }
+
+    /* Hero */
+    .hero {
+      max-width: 1100px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      text-align: center;
+      
+    }
+
+    .hero img {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgb(0 0 0 / 0.1);
+      margin-bottom: 2rem;
+      border:  2px solid; 
+  border-color:  #008000;
+    }
+
+    .hero-text h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--azul-primario);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+  h1, h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  input[type=number], select {
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .payment-methods {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-method {
+    flex: 1 1 120px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  .btn-method:hover,
+  .btn-method:focus {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    outline: none;
+  }
+  .btn-mercado {
+    background: #00a650;
+  }
+  .btn-paypal {
+    background: #003087;
+  }
+  .btn-pix {
+    background: #EAB308;
+    color: #222;
+  }
+  .btn-pix:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    color: #666;
+  }
+  /* Modal */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: #008000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+  }
+  .modal-bg.active {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+  }
+  .modal-content img {
+    max-width: 250px;
+    margin-bottom: 1rem;
+  }
+  .modal-content p {
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .modal-content button {
+    background:#005bac;
+    height: 140px;
+    color: white;
+    padding: 0.8rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  .modal-content button:hover {
+    background: #008000;
+  }
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+  }
+  .modal-close:hover {
+    color: #333;
+  }
+  /* Aviso de mensagem */
+  #mensal-pix-alert {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+  }
+
+      /* Estilos base do nav */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botão hamburger - inicialmente escondido */
+#menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;   /* Menor largura */
+  height: 24px;  /* Menor altura */
+  position: fixed; /* fixo para ficar no topo */
+  right: 20px; /* botão à direita */
+  z-index: 1100;
+  padding: 0;
+}
+
+/* Linhas do hamburger */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  display: block;
+  background-color: white;
+  height: 3px;
+  border-radius: 3px;
+  position: absolute;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* Linha central */
+.hamburger {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Linha de cima */
+.hamburger::before {
+  top: 7px;
+  left: 0;
+}
+
+/* Linha de baixo */
+.hamburger::after {
+  bottom: 7px;
+  left: 0;
+}
+
+/* Quando ativo, muda a cor das linhas, sem transformar em X */
+#menu-toggle.active .hamburger,
+#menu-toggle.active .hamburger::before,
+#menu-toggle.active .hamburger::after {
+  background-color: #ffffff; /* amarelo bonito */
+}
+
+/* Estilos mobile */
+/* Menu lateral mobile */
+@media (max-width: 768px) {
+  nav ul {
+    display: none; /* esconde o menu padrão */
+    flex-direction: column;
+    background-color: #005bac;
+    height: 140px;
+    position: fixed;
+    top: 60px; /* altura do header */
+    right: 0;
+    width: 200px;
+    height: auto; /* ajusta a altura ao conteúdo */
+    max-height: calc(100vh - 60px); /* não ultrapassa a tela */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    overflow-y: auto; /* scroll caso ultrapasse altura da tela */
+    border-radius: 0 0 0 10px; /* cantinho arredondado só na lateral esquerda */
+    z-index: 1000;
+    border-bottom: solid 4px #cec408;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li a {
+    color: white;
+    padding: 1rem 1.5rem;
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    outline: none;
+    color: white;
+    border-bottom: 5px solid #cec408;
+  }
+
+  /* Mostrar o botão hamburger no mobile */
+  #menu-toggle {
+    display: block;
+  }
+}
+
+form {
+  background: #005bac;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  max-width: 600px;
+  margin: 3rem auto;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-left: 8px solid #cec408;
+}
+
+form fieldset {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+form legend {
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 0.3rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border-bottom: 4px solid #cec408;
+  background: #ffffff;
+  color: #000000;
+  font-size: 1rem;
+  transition: border-color 0.3s, background-color 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="tel"]:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #000000;
+}
+
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+form label a {
+  color: #ffffff;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+form label a:hover,
+form label a:focus {
+  color: #cec408;
+}
+
+form > label {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+form button.btn {
+  display: block;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0.85rem 0;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form button.btn:hover,
+form button.btn:focus {
+  background-color: #ffffff;
+  border-bottom: 8px solid #cec408;
+}
+
+/* ==== SEÇÃO ENDEREÇO E MAPA ==== */
+
+.contato-mapa-endereco {
+  display: flex;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 3rem auto;
+  background: #005bac;
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+  color: #eee;
+  flex-wrap: wrap;
+  transition: background-color 0.3s ease, color 0.3s ease;
+    border-left: 8px solid #cec408;
+}
+
+.card-endereco {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.8rem;
+}
+
+.card-endereco h3 {
+  font-size: 2.25rem;
+  margin-bottom: 1.2rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.15rem;
+  color: #ccc;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.info-item i {
+  font-size: 2.2rem;
+  color: #ffffff;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+.info-item:hover {
+  color: #ffffff;
+}
+
+.info-item:hover i {
+  color: #ffffff;
+}
+
+.card-mapa {
+  flex: 2 1 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  min-height: 320px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-mapa iframe {
+  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  border: none;
+  display: block;
+}
+
+/* Modo claro */
+
+body.light-mode form {
+  background: #dbdada;
+  color: #222;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+body.light-mode form legend {
+  color: #008000;
+  border-color: #ffffff;
+}
+
+body.light-mode form label,
+body.light-mode form > label {
+  color: #444;
+}
+
+body.light-mode form input,
+body.light-mode form select,
+body.light-mode form textarea {
+  background: #413f3f;
+  color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+body.light-mode form input:focus,
+body.light-mode form select:focus,
+body.light-mode form textarea:focus {
+  border-color: #ffffff;
+  background: #202020;
+  color: #ffffff;
+}
+
+body.light-mode form label a {
+  color: #008000;
+}
+
+body.light-mode form label a:hover,
+body.light-mode form label a:focus {
+  color: #ffffff;
+}
+
+body.light-mode form button.btn {
+  background-color: #fafafa;
+  color: #000000;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+}
+
+body.light-mode form button.btn:hover,
+body.light-mode form button.btn:focus {
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.85);
+}
+
+body.light-mode .contato-mapa-endereco {
+  background: #f7f7f7;
+  color: #222;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+}
+
+body.light-mode .card-endereco h3 {
+  color: #333;
+}
+
+body.light-mode .info-item {
+  color: #555;
+}
+
+body.light-mode .info-item i {
+  color: #000000;
+}
+
+body.light-mode .info-item:hover {
+  color: #000000;
+}
+
+body.light-mode .info-item:hover i {
+  color: #000000;
+}
+
+body.light-mode .card-mapa {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Responsividade */
+
+@media (max-width: 900px) {
+  form {
+    max-width: 100%;
+    padding: 1.5rem 2rem;
+    margin: 2rem 1rem;
+  }
+
+  .contato-mapa-endereco {
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+
+  .card-endereco,
+  .card-mapa {
+    flex: 1 1 100%;
+  }
+
+  .card-mapa {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  form legend {
+    font-size: 1.3rem;
+  }
+  
+  form button.btn {
+    font-size: 1rem;
+    padding: 0.7rem 0;
+  }
+}
+
+
+    /* Botão WhatsApp fixo */
+    .whatsapp-button {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: #005bac;
+      color: white;
+      font-size: 28px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #005bac;
+      text-decoration: none;
+      color: #cec408;
+    }
+
+    /* Botão toggle tema */
+    #theme-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #005bac;
+      color: #fff;
+      border: none;
+      font-size: 1.3rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      z-index: 9999;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    #theme-toggle:hover,
+    #theme-toggle:focus {
+      background-color: #005bac;
+      color: #cec408;
+      outline: none;
+    }
+
+    /* Tema escuro simples */
+    html[data-theme='dark'] body {
+      background-color: #2c3e50;
+      color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] header {
+      background-color: #005bac;
+      box-shadow: none;
+    }
+
+    html[data-theme='dark'] nav a {
+      color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] main {
+      background-color: #005bac;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    html[data-theme='dark'] form {
+      background-color: #005bac;
+      border-color: #cec408;
+     
+    }
+
+    html[data-theme='dark'] form label {
+      color: #ffffff;
+    }
+
+    html[data-theme='dark'] form input,
+    html[data-theme='dark'] form select,
+    html[data-theme='dark'] form textarea {
+      background-color: #2c3e50;
+      color: #ffffff;
+      border-color: #cec408;
+    }
+
+    html[data-theme='dark'] form input:focus,
+    html[data-theme='dark'] form select:focus,
+    html[data-theme='dark'] form textarea:focus {
+      box-shadow: 0 0 8px #000000;
+      border-color: #66a3ff;
+      background-color: #797a7a;
+    }
+
+    html[data-theme='dark'] form button[type="submit"] {
+      background-color: #2c3e50;
+      color: white;
+   
+    }
+
+    html[data-theme='dark'] form button[type="submit"]:hover,
+    html[data-theme='dark'] form button[type="submit"]:focus {
+      background-color: #2c3e50;
+      border-bottom: solid 6px #cec408;
+    }
+
+    html[data-theme='dark'] footer {
+      background-color: #004a8f;
+      color: #cfd8ff;
+      box-shadow: none;
+    }
+footer {
+  background-color: #004a8f;
+  color: #fff;
+  padding: 30px 20px;
+  font-size: 16px;
+  border-top: solid 8px #cec408;
+}
+
+footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* permite quebra suave em telas muito pequenas */
+  gap: 30px;
+}
+
+/* Cada coluna */
+footer .footer-col {
+  flex: 1 1 250px; /* largura mínima 250px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+/* Logo */
+footer .footer-logo img {
+  max-height: 60px;
+  width: auto;
+  border-radius: 30%;
+}
+
+/* Contatos */
+footer .footer-contato p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+footer .footer-contato i {
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Redes sociais */
+footer .footer-redes {
+  display: flex;
+  gap: 15px;
+  
+}
+
+footer .footer-redes a {
+  color: #fff;
+  font-size: 15px;
+  transition: transform 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+footer .footer-redes a:hover {
+  transform: scale(1.2);
+  color: #cec408
+}
+
+/* Mobile suave */
+@media (max-width: 768px) {
+  footer .footer-col {
+    flex: 1 1 45%; /* duas colunas lado a lado */
+  }
+}
+
+@media (max-width: 480px) {
+  footer .footer-col {
+    flex: 1 1 100%; /* uma coluna por linha no celular pequeno */
+  }
+
+  footer .footer-redes a {
+    font-size: 24px; /* ícones um pouco menores */
+  }
+
+  footer .footer-contato p {
+    font-size: 14px; /* textos menores para caber */
+  }
+}
+footer .footer-dev img {
+    height: 18px; /* Ícone do dev bem pequeno */
+} /*===================
+   CRÉDITO DESENVOLVEDOR
+========================= */
+footer .footer-dev {
+  width: 100%;
+  margin-top: 4px;
+  padding: 3px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 12px;
+  line-height: 1;
+
+  color: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+footer .footer-dev img {
+  height: 28px; /* visível e discreta */
+  width: auto;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+footer .footer-dev a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+footer .footer-dev a:hover {
+  color: #cec408;
+}
+
+/* =========================
+   SCROLLBAR PERSONALIZADA
+========================= */
+
+/* largura da barra */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* fundo da barra */
+::-webkit-scrollbar-track {
+  background: #004a8f; /* azul um pouco mais escuro */
+}
+
+/* "botão" que desliza */
+::-webkit-scrollbar-thumb {
+  background-color: #cec408; /* amarelo do site */
+  border-radius: 20px;
+  border: 2px solid #004a8f;
+}
+
+/* hover no botão */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #e6dc1a;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="Imagens/tudonossologo.png" alt="É tudo nosso" /></a>
+  </div>
+
+  <!-- Botão Hamburger -->
+ <button id="menu-toggle" aria-label="Abrir menu">
+  <span class="hamburger"></span>
+</button>
+
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="Inscricoes.html">Corrida</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="doacao.html">Doações</a></li>
+      <li><a href="voluntariado.html">Voluntariado</a></li>
+      <li><a href="contato.html">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+<form action="espacotudonosso@gmail.com" method="post" enctype="text/plain">
+  <fieldset>
+    <legend>Seus Dados</legend>
+
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" name="Nome" placeholder="Seu nome" required />
+
+    <label for="email">E-mail</label>
+    <input type="email" id="email" name="E-mail" placeholder="seu@email.com" required />
+
+    <label for="telefone">Telefone</label>
+    <input type="tel" id="telefone" name="Telefone" placeholder="(00) 00000-0000" pattern="\(\d{2}\) \d{4,5}-\d{4}" />
+  </fieldset>
+
+  <fieldset>
+    <legend>Sua Mensagem</legend>
+
+    <label for="assunto">Assunto</label>
+    <select id="assunto" name="Assunto" required>
+      <option value="" disabled selected>Selecione um assunto</option>
+      <option value="Orçamento">Orçamento</option>
+      <option value="Dúvidas">Dúvidas</option>
+      <option value="Suporte">Suporte</option>
+      <option value="Outros">Outros</option>
+    </select>
+
+    <label for="mensagem">Mensagem</label>
+    <textarea id="mensagem" name="Mensagem" placeholder="Escreva sua mensagem..." maxlength="1000" required></textarea>
+  </fieldset>
+
+  <label>
+    <input type="checkbox" name="consentimento" required />
+  Eu concordo com a  <a href="/politica-de-privacidade" target="_blank"> Política de Privacidade</a>.
+  </label>
+
+  <button type="submit" class="btn">Enviar</button>
+</form>
+  
+<section class="contato-mapa-endereco container">
+  <div class="card-endereco">
+    <h3>Nosso Endereço</h3>
+    <div class="info-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <p>Rua Aristides Pires de Andrade, 92, Itapecerica de Serra, SP, Brazil</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-phone"></i>
+      <p>(11) 99563-7530</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-envelope"></i>
+      <p>espacotudonosso@gmail.com</p>
+    </div>
+  </div>
+  <div class="card-mapa">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.197099524925!2d-46.847228924708255!3d-23.667586478738636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce53dfef802805%3A0x35c4c79d8b0bc3e4!2sR.+Aristides+Pires+de+Andrade,+92+-+Itapecerica+da+Serra,+SP,+Brazil,+06867-650!5e0!3m2!1spt-BR!2sbr!4v1721830891013!5m2!1spt-BR!2sbr"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <a class="mapa-botao" href="https://www.google.com/maps/place/Rua+Aristides+Pires+de+Andrade,+92,+Itapecerica+da+Serra,+SP,+Brazil,+06867-650" target="_blank">Abrir no Google Maps</a>
+  </div>
+</section>
+
+
+  
+<footer>
+  <div class="footer-container">
+    <!-- Logo -->
+    <div class="footer-col footer-logo">
+      <img src="Imagens/tudonossologo.png" alt="Logo É Tudo Nosso">
+      <p>&copy; É Tudo Nosso — Todos os direitos reservados.</p>
+    </div>
+
+    <!-- Contatos -->
+    <div class="footer-col footer-contato">
+      <p><i class="fas fa-map-marker-alt"></i> Rua Aristides Pires de Andrade, 92 - Itapecerica da Serra/SP</p>
+      <p><i class="fas fa-phone"></i> (11) 99563-7530</p>
+      <p><i class="fas fa-envelope"></i> espacotudonosso@gmail.com</p>
+    </div>
+
+    <!-- Redes -->
+    <div class="footer-col footer-redes">
+      <a href="#"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
+      <a href="#"><i class="fab fa-facebook"></i> tudonossosim</a>
+      <a href="#"><i class="fab fa-whatsapp"></i> (11) 99563-7530</a>
+    </div>
+
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+<div class="footer-dev">
+  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+</div>
+</footer>
+
+
+  <!-- Botão WhatsApp fixo -->
+  <a href="https://wa.me/5598999999999" target="_blank" rel="noopener" class="whatsapp-button" aria-label="Contato pelo WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+
+  <!-- Botão toggle tema -->
+  <button id="theme-toggle" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <script>
+    // Menu Mobile
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.querySelector('nav ul');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+      menuToggle.classList.toggle('active');
+      if(navLinks.classList.contains('show')) {
+        menuToggle.setAttribute('aria-label', 'Fechar menu');
+      } else {
+        menuToggle.setAttribute('aria-label', 'Abrir menu');
+      }
+    });
+
+    // Tema Claro/Escuro
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    function updateIcon() {
+      if (html.getAttribute('data-theme') === 'dark') {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // ícone sol para escuro
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; // ícone lua para claro
+      }
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon();
+    });
+
+    // Ao carregar, aplicar tema salvo no localStorage (ou padrão dark)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      html.setAttribute('data-theme', savedTheme);
+    } else {
+      html.setAttribute('data-theme', 'dark');
+    }
+    updateIcon();
+  </script>
+</body>
+</html>
