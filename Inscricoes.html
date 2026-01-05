@@ -616,66 +616,68 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
 <main>
   <h1>Inscrição Corrida</h1>
 
-  <form id="inscricao-form">
-    <label for="nome">Nome completo *</label>
-    <input type="text" id="nome" required>
+<form id="inscricao-form">
+  <label for="nome">Nome completo *</label>
+  <input type="text" id="nome" required>
 
-    <label for="data_nascimento">Data de nascimento *</label>
-    <input type="date" id="data_nascimento" required>
+  <label for="data_nascimento">Data de nascimento *</label>
+  <input type="date" id="data_nascimento" required>
 
-    <label for="cidade">Cidade *</label>
-<input type="text" id="cidade" required placeholder="Digite sua cidade">
-    
+  <!-- Novo campo: cidade, logo após data de nascimento -->
+  <label for="cidade">Cidade *</label>
+  <input type="text" id="cidade" required placeholder="Digite sua cidade">
+
   <label for="cpf">CPF *</label>
   <input type="text" id="cpf" required maxlength="14" placeholder="XXX.XXX.XXX-XX" oninput="formatarCPF(this)">
 
+  <label for="email">Email *</label>
+  <input type="email" id="email" required>
 
-    <label for="email">Email *</label>
-    <input type="email" id="email" required>
+  <label for="telefone">Telefone</label>
+  <input type="text" id="telefone">
 
-    <label for="telefone">Telefone</label>
-    <input type="text" id="telefone">
+  <label for="modalidade">Modalidade *</label>
+  <select id="modalidade" required>
+    <option value="">Selecione</option>
+    <option value="4km">4km</option>
+    <option value="8km">8km</option>
+  </select>
 
-    <label for="modalidade">Modalidade *</label>
-    <select id="modalidade" required>
-      <option value="">Selecione</option>
-      <option value="4km">4km</option>
-      <option value="8km">8km</option>
-    </select>
+  <!-- Novo campo: tipo de participação, logo após modalidade -->
+  <label for="tipo_participacao">Você participará de *</label>
+  <select id="tipo_participacao" required>
+    <option value="">Selecione</option>
+    <option value="Corrida">Corrida</option>
+    <option value="Caminhada">Caminhada</option>
+  </select>
 
-    <label for="tipo_participacao">Você participará de *</label>
-<select id="tipo_participacao" required>
-  <option value="">Selecione</option>
-  <option value="Corrida">Corrida</option>
-  <option value="Caminhada">Caminhada</option>
-</select>
+  <label for="sexo">Sexo</label>
+  <select id="sexo">
+    <option value="">Selecione</option>
+    <option value="Masculino">Masculino</option>
+    <option value="Feminino">Feminino</option>
+    <option value="Outro">Outro</option>
+  </select>
 
-    <label for="sexo">Sexo</label>
-    <select id="sexo">
-      <option value="">Selecione</option>
-      <option value="Masculino">Masculino</option>
-      <option value="Feminino">Feminino</option>
-      <option value="outro">Outro</option>
-    </select>
+  <label for="tamanho_camisa">Tamanho da camisa</label>
+  <select id="tamanho_camisa">
+    <option value="">Selecione</option>
+    <option value="P">P</option>
+    <option value="M">M</option>
+    <option value="G">G</option>
+    <option value="GG">GG</option>
+  </select>
 
-    <label for="tamanho_camisa">Tamanho da camisa</label>
-    <select id="tamanho_camisa">
-      <option value="">Selecione</option>
-      <option value="P">P</option>
-      <option value="M">M</option>
-      <option value="G">G</option>
-      <option value="GG">GG</option>
-    </select>
+  <label for="retirada_kit">Local de Retirada</label>
+  <select id="retirada_kit">
+    <option value="">Selecione</option>
+    <option value="Word Tênis Shopping - Itapecerica da Serra">Word Tênis Shopping - Itapecerica da Serra</option>
+    <option value="Academia +40 - Jardim das Oliveiras">Academia +40 - Jardim das Oliveiras</option>
+  </select>
 
-        <label for="retirada_kit">Local de Retirada</label>
-    <select id="retirada_kit">
-      <option value="">Selecione</option>
-      <option value="Word Tênis Shopping - Itapecerica da Serra"> Word Tênis Shopping - Itapecerica da Serra </option>
-      <option value="Academia +40 - Jardim das Oliveiras"> Academia +40 - Jardim das Oliveiras</option>
-    </select id="retirada_kit"></select>
-      
-      <button type="submit">Enviar inscrição</button>
-  </form>
+  <button type="submit">Enviar inscrição</button>
+</form>
+
 
   <div id="message"></div>
 </main>
@@ -755,12 +757,12 @@ form.addEventListener('submit', async (e) => {
   const formData = new FormData();
   formData.append("nome", document.getElementById('nome').value.trim());
   formData.append("data_nascimento", document.getElementById('data_nascimento').value);
-  formData.append("cidade", document.getElementById('cidade').value.trim());
+  formData.append("cidade", document.getElementById('cidade').value.trim()); // ADICIONADO
   formData.append("cpf", document.getElementById('cpf').value.replace(/\D/g, ''));
   formData.append("email", document.getElementById('email').value.trim());
   formData.append("telefone", document.getElementById('telefone').value.trim());
   formData.append("modalidade", document.getElementById('modalidade').value);
-  formData.append("tipo_participacao", document.getElementById('tipo_participacao').value);
+  formData.append("tipo_participacao", document.getElementById('tipo_participacao').value); // ADICIONADO
   formData.append("sexo", document.getElementById('sexo').value);
   formData.append("tamanho_camisa", document.getElementById('tamanho_camisa').value);
   formData.append("retirada_kit", document.getElementById('retirada_kit').value.trim());
@@ -769,11 +771,11 @@ form.addEventListener('submit', async (e) => {
   if (
     !formData.get("nome") ||
     !formData.get("data_nascimento") ||
-    !formData.get("cidade") ||
+    !formData.get("cidade") || // ADICIONADO
     !formData.get("cpf") ||
     !formData.get("email") ||
     !formData.get("modalidade") ||
-    !formData.get("tipo_participacao")
+    !formData.get("tipo_participacao") // ADICIONADO
   ) {
     showPopup("Preencha todos os campos obrigatórios (*)", "error", false);
     return;
@@ -781,7 +783,7 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbzDXLDz-AsXNP5i-NwgK6rGIxFprpomzOoFeiPM9o_4asDFiEfpSuSAbTWtRf7v7GA/exec", // <- Substitua pela URL do deploy
+      "https://script.google.com/macros/s/AKfycbz2aclbgjZByoCz9eeA7Wbwmr3oTDaiOjtHCMcIG5EDPZCVQuSKGZIwVKk186gt-NPG/exec",
       {
         method: "POST",
         body: formData
@@ -817,29 +819,4 @@ function formatarCPF(input) {
   cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   input.value = cpf;
 }
-
-/* ================= MODAL REGRAS ================= */
-const modal = document.getElementById("modal");
-const btnAbrir = document.getElementById("abrir-regras");
-const btnCloseX = document.getElementById("modal-close");
-
-window.addEventListener("load", () => {
-  modal.classList.add("active");
-});
-
-function abrirModal() {
-  modal.classList.add("active");
-}
-
-function fecharModal() {
-  modal.classList.remove("active");
-}
-
-btnCloseX.addEventListener("click", fecharModal);
-btnAbrir.addEventListener("click", abrirModal);
-
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) fecharModal();
-});
-
 </script>
