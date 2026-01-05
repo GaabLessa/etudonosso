@@ -819,4 +819,37 @@ function formatarCPF(input) {
   cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   input.value = cpf;
 }
+/* ================= MODAL REGRAS ================= */
+const modal = document.getElementById('modal');
+const btnAbrirRegras = document.getElementById('abrir-regras');
+const btnFecharModal = document.getElementById('modal-close');
+const btnFecharModalInferior = document.querySelector('.btn-fechar'); // botão "Entendi"
+
+function abrirModal() {
+  modal.classList.add('active'); // usa 'active' em vez de 'show'
+}
+
+function fecharModal() {
+  modal.classList.remove('active');
+}
+
+// abrir modal automaticamente ao carregar a página
+window.addEventListener('load', () => {
+  abrirModal();
+});
+
+// abrir modal ao clicar no botão "Ver regras da corrida"
+btnAbrirRegras.addEventListener('click', abrirModal);
+
+// fechar modal ao clicar no X
+btnFecharModal.addEventListener('click', fecharModal);
+
+// fechar modal ao clicar no botão inferior "Entendi"
+btnFecharModalInferior.addEventListener('click', fecharModal);
+
+// fechar modal ao clicar fora do conteúdo
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) fecharModal();
+});
+
 </script>
