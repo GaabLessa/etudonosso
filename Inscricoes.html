@@ -537,6 +537,50 @@ footer .footer-dev a:hover {
 .btn-regras:hover {
   background: #004a8f;
 }
+/* ================= APOIOS ================= */
+.apoios {
+  background: #f5f5f5;
+  padding: 40px 20px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.apoios h2 {
+  font-size: 24px;
+  color: #005bac;
+  margin-bottom: 30px;
+}
+
+.carousel-apoios {
+  overflow: hidden;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 30px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.logo-apoio {
+  flex: 0 0 calc(33.333% - 20px); /* 3 logos visíveis */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-apoio img {
+  max-height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.logo-apoio img:hover {
+  transform: scale(1.1);
+}
+
 
 </style>
 </head>
@@ -688,6 +732,21 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
     <p id="popup-message"></p>
   </div>
 </div>
+
+<!-- SEÇÃO DE APOIOS -->
+<section class="apoios">
+  <h2>Apoiadores</h2>
+  <div class="carousel-apoios">
+    <div class="carousel-track">
+      <div class="logo-apoio"><img src="Imagens/secretaria-convertido-de-png.webp" alt="Apoio 1"></div>
+      <div class="logo-apoio"><img src="Imagens/logo.jpg" alt="Apoio 2"></div>
+      <div class="logo-apoio"><img src="Imagens/prefeitura.jpg" alt="Apoio 3"></div>
+      <div class="logo-apoio"><img src="Imagens/mandu_assistencia_page_1-convertido-de-png.webp" alt="Apoio 4"></div>
+      <div class="logo-apoio"><img src="Imagens/churrasquinhododao.webp" alt="Apoio 5"></div>
+      <!-- adicione mais logos conforme necessário -->
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="footer-container">
@@ -852,4 +911,20 @@ modal.addEventListener('click', (e) => {
   if (e.target === modal) fecharModal();
 });
 
+// ================= CARROSSEL DE APOIOS =================
+const track = document.querySelector('.carousel-track');
+const logos = document.querySelectorAll('.logo-apoio');
+let index = 0;
+const total = logos.length;
+const visible = 3; // logos visíveis
+
+function moverCarousel() {
+  index++;
+  if (index > total - visible) index = 0; // volta ao início
+  const moveX = -(index * (100 / visible)); // calcula a posição
+  track.style.transform = `translateX(${moveX}%)`;
+}
+
+// muda a cada 2,5 segundos
+setInterval(moverCarousel, 2500);
 </script>
