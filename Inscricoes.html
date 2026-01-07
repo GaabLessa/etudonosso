@@ -565,7 +565,7 @@ footer .footer-dev a:hover {
 }
 
 .logo-apoio {
-  flex: 0 0 calc(33.333% - 20px); /* 3 logos visíveis */
+  flex: 0 0 calc(20% - 20px); /* 3 logos visíveis */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -579,6 +579,21 @@ footer .footer-dev a:hover {
 
 .logo-apoio img:hover {
   transform: scale(1.1);
+}
+
+.carousel-apoios {
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scrollbar-width: none; /* Firefox */
+}
+
+.carousel-apoios::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+.carousel-apoios.dragging {
+  cursor: grabbing;
 }
 
 
@@ -743,6 +758,14 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
       <div class="logo-apoio"><img src="Imagens/prefeitura.jpg" alt="Apoio 3"></div>
       <div class="logo-apoio"><img src="Imagens/mandu_assistencia_page_1-convertido-de-png.webp" alt="Apoio 4"></div>
       <div class="logo-apoio"><img src="Imagens/churrasquinhododao.webp" alt="Apoio 5"></div>
+      <div class="logo-apoio"><img src="Imagens/titanium.png" alt="Apoio 6"></div>
+      <div class="logo-apoio"><img src="Imagens/sportnow.jpeg" alt="Apoio 7"></div>
+      <div class="logo-apoio"><img src="Imagens/apvs.jpeg" alt="Apoio 8"></div>
+      <div class="logo-apoio"><img src="Imagens/caprichoso.jpeg" alt="Apoio 9"></div>
+      <div class="logo-apoio"><img src="Imagens/malu.jpeg" alt="Apoio 10"></div>      
+      <div class="logo-apoio"><img src="Imagens/coquinhoreciclagem.jpeg" alt="Apoio 11"></div>
+      <div class="logo-apoio"><img src="Imagens/vocepode.jpeg" alt="Apoio 12"></div>
+      
       <!-- adicione mais logos conforme necessário -->
     </div>
   </div>
@@ -927,4 +950,53 @@ function moverCarousel() {
 
 // muda a cada 2,5 segundos
 setInterval(moverCarousel, 2500);
+const carousel = document.querySelector('.carousel-apoios');
+
+let isDragging = false;
+let startX;
+let scrollLeft;
+
+/* MOUSE */
+carousel.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  startX = e.pageX - carousel.offsetLeft;
+  scrollLeft = carousel.scrollLeft;
+  carousel.classList.add('dragging');
+});
+
+carousel.addEventListener('mouseleave', () => {
+  isDragging = false;
+  carousel.classList.remove('dragging');
+});
+
+carousel.addEventListener('mouseup', () => {
+  isDragging = false;
+  carousel.classList.remove('dragging');
+});
+
+carousel.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  e.preventDefault();
+  const x = e.pageX - carousel.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  carousel.scrollLeft = scrollLeft - walk;
+});
+
+/* TOUCH */
+carousel.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  startX = e.touches[0].pageX - carousel.offsetLeft;
+  scrollLeft = carousel.scrollLeft;
+});
+
+carousel.addEventListener('touchend', () => {
+  isDragging = false;
+});
+
+carousel.addEventListener('touchmove', (e) => {
+  if (!isDragging) return;
+  const x = e.touches[0].pageX - carousel.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  carousel.scrollLeft = scrollLeft - walk;
+});
 </script>

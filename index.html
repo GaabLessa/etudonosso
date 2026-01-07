@@ -1303,6 +1303,71 @@ footer .footer-redes a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #e6dc1a;
 }
+/* ================= BANNER EVENTO ================= */
+.banner-evento {
+  background: linear-gradient(90deg, #005bac, #004a8f);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 10px 20px;
+  color: #fff;
+}
+
+/* IMAGENS (ESQUERDA E DIREITA) */
+.banner-img {
+  height: 48px;       /* pequeno e elegante */
+  width: auto;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* TEXTO CENTRAL */
+.banner-texto {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* BOTÃO (opcional, se quiser manter) */
+.banner-btn {
+  background: #096bd3;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.banner-btn:hover {
+  background-color:#096bd3;
+  color: white;
+  border-bottom: 4px solid #e6dc1a;  
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+  .banner-evento {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .banner-img {
+    height: 34px;
+  }
+
+  .banner-texto {
+    width: 100%;
+    margin-top: 6px;
+    font-size: 13px;
+  }
+}
 
   </style>
 </head>
@@ -1330,28 +1395,36 @@ footer .footer-redes a:hover {
   </nav>
 </header> 
 
+<!-- BANNER DE EVENTO -->
+<div class="banner-evento">
+  <img src="Imagens/icons8-correr-48.png" alt="Evento" class="banner-img">
+
+  <span class="banner-texto">
+    Corrida e Caminhada pela Amizade — 25 de Janeiro
+  </span>
+
+  <a href="inscricao.html" class="banner-btn">Inscreva-se</a>
+</div>
 
   <div class="carrossel">
   <div class="slides">
-    <div class="vol-slide"><img src= "Imagens/corrida.jpg" alt="Imagem 1"></div>
-    <div class="vol-slide"><img src="Imagens/post.jpg" alt="Imagem 2"></div>
-    <div class="vol-slide"><img src= "Imagens/corrida.jpeg"  alt="Imagem 3"></div>
-    <div class="vol-slide"><img src="Imagens/corrida2.jpg" alt="Imagem 4"></div>
-    <div class="vol-slide"><img src="Imagens/tudonosso2.jpg" alt="Imagem 5"></div>
-    <div class="vol-slide"><img src="Imagens/tudonosso3.jpg" alt="Imagem 6"></div>
-    <div class="vol-slide"><img src="Imagens/tudonosso4.jpg" alt="Imagem 7"></div>
+        
+    <div class="vol-slide"><img src="Imagens/tudonosso1.jpg" alt="Imagem 1"></div>
+    <div class="vol-slide"><img src="Imagens/tudonosso2.jpg" alt="Imagem 2"></div>
+    <div class="vol-slide"><img src="Imagens/tudonosso3.jpg" alt="Imagem 3"></div>
+    <div class="vol-slide"><img src="Imagens/tudonosso4.jpg" alt="Imagem 4"></div>
+    <div class="vol-slide"><img src= "Imagens/corrida.png" alt="Imagem 5"></div>
+    <div class="vol-slide"><img src= "Imagens/corrida2.png"  alt="Imagem 6"></div>
+
 
   </div>
     <section class="hero">
 
     <div class="hero-text">
-<h1> Corrida e Caminhada pela Amizade</h1>
-<h2>25 de janeiro • 7h • Jardim das Oliveiras • </h2>
-<h3>Realização: Espaço Sociocultural Esportivo É Tudo Nosso</h3>
-      <div class="hero-buttons">
-        <a href="Inscricoes.html" class="btn">inscreva -se </a>
-      </div>
-      
+      <h1>Sejam Bem vindos ao <br> É Tudo Nosso </h1>
+<h3> Transformando Vidas Atraves de solidariedade</h3>
+
+
     </div>
   </section>
 </div>
