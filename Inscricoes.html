@@ -934,69 +934,103 @@ modal.addEventListener('click', (e) => {
   if (e.target === modal) fecharModal();
 });
 
-// ================= CARROSSEL DE APOIOS =================
-const track = document.querySelector('.carousel-track');
-const logos = document.querySelectorAll('.logo-apoio');
-let index = 0;
-const total = logos.length;
-const visible = 3; // logos visíveis
-
-function moverCarousel() {
-  index++;
-  if (index > total - visible) index = 0; // volta ao início
-  const moveX = -(index * (100 / visible)); // calcula a posição
-  track.style.transform = `translateX(${moveX}%)`;
-}
-
-// muda a cada 2,5 segundos
-setInterval(moverCarousel, 2500);
 const carousel = document.querySelector('.carousel-apoios');
+const track = document.querySelector('.carousel-track');
 
 let isDragging = false;
-let startX;
-let scrollLeft;
+let startX = 0;
+let scrollLeft = 0;
+let loopPoint = 0;
+let autoPlayInterval;
 
-/* MOUSE */
-carousel.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  startX = e.pageX - carousel.offsetLeft;
-  scrollLeft = carousel.scrollLeft;
-  carousel.classList.add('dragging');
+/* DUPLICA ITENS PARA LOOP */
+[...track.children].forEach(item => {
+  track.appendChild(item.cloneNode(true));
 });
 
-carousel.addEventListener('mouseleave', () => {
-  isDragging = false;
-  carousel.classList.remove('dragging');
+/* INICIALIZA */
+window.addEventListener('load', () => {
+  loopPoint = track.scrollWidth / 2;
+  carousel.scrollLeft = loopPoint;
+  iniciarAutoplay();
+});
+
+/* AUTOPLAY */
+function iniciarAutoplay() {
+  const logo = track.querySelector('.logo-apoio');
+  const gap = 20; // mesmo gap do CSS
+  const passo = logo.offsetWidth + gap;
+
+  autoPlayInterval = setInterval(() => {
+    carousel.scrollTo({
+      left: carousel.scrollLeft + passo,
+      behavior: 'smooth'
+    });
+  }, 2500);
+}
+
+
+function pararAutoplay() {
+  clearInterval(autoPlayInterval);
+}
+
+/* LOOP INVISÍVEL */
+carousel.addEventListener('scroll', () => {
+  if (!loopPoint) return;
+
+  if (carousel.scrollLeft < loopPoint * 0.25) {
+    carousel.scrollLeft += loopPoint;
+  }
+
+  if (carousel.scrollLeft > loopPoint * 1.75) {
+    carousel.scrollLeft -= loopPoint;
+  }
+});
+
+/* ===== MOUSE ===== */
+carousel.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  pararAutoplay();
+  startX = e.pageX;
+  scrollLeft = carousel.scrollLeft;
+  carousel.classList.add('dragging');
 });
 
 carousel.addEventListener('mouseup', () => {
   isDragging = false;
   carousel.classList.remove('dragging');
+  iniciarAutoplay();
+});
+
+carousel.addEventListener('mouseleave', () => {
+  isDragging = false;
+  carousel.classList.remove('dragging');
+  iniciarAutoplay();
 });
 
 carousel.addEventListener('mousemove', (e) => {
   if (!isDragging) return;
   e.preventDefault();
-  const x = e.pageX - carousel.offsetLeft;
-  const walk = (x - startX) * 1.5;
+  const walk = (e.pageX - startX) * 1.4;
   carousel.scrollLeft = scrollLeft - walk;
 });
 
-/* TOUCH */
+/* ===== TOUCH ===== */
 carousel.addEventListener('touchstart', (e) => {
   isDragging = true;
-  startX = e.touches[0].pageX - carousel.offsetLeft;
+  pararAutoplay();
+  startX = e.touches[0].pageX;
   scrollLeft = carousel.scrollLeft;
-});
+}, { passive: true });
 
 carousel.addEventListener('touchend', () => {
   isDragging = false;
+  iniciarAutoplay();
 });
 
 carousel.addEventListener('touchmove', (e) => {
   if (!isDragging) return;
-  const x = e.touches[0].pageX - carousel.offsetLeft;
-  const walk = (x - startX) * 1.5;
+  const walk = (e.touches[0].pageX - startX) * 1.4;
   carousel.scrollLeft = scrollLeft - walk;
-});
+}, { passive: true });
 </script>
