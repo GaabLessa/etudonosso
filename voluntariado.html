@@ -764,43 +764,53 @@ button[type="submit"]:hover {
 }
 
 .modal-close:hover { color: #333; }
-footer .footer-dev img {
-    height: 18px; /* Ícone do dev bem pequeno */
-} /*===================
+
+/*===================
    CRÉDITO DESENVOLVEDOR
 ========================= */
+
 footer .footer-dev {
   width: 100%;
-  margin-top: 4px;
-  padding: 3px 0;
+  padding: 8px 0;
+  margin-top: 10px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 6px;
 
-  font-size: 12px;
-  line-height: 1;
-
-  color: rgba(255, 255, 255, 0.55);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-footer .footer-dev img {
-  height: 28px; /* visível e discreta */
-  width: auto;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
 footer .footer-dev a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
+  font-size: 14px;
+  line-height: 1;
+
+  transition: color 0.3s ease;
 }
 
 footer .footer-dev a:hover {
-  color: #cec408;
+  color: #ffffff;
 }
+
+footer .footer-dev img {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+
+footer .footer-dev a:hover {
+  color: #ffffff;
+  transform: scale(1.03);
+}
+/* =========================
+   SCROLLBAR PERSONALIZADA
+========================= */
 
 /* =========================
    SCROLLBAR PERSONALIZADA
@@ -1021,9 +1031,10 @@ footer .footer-dev a:hover {
     </div>
 
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
-  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
-  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+  <a href="https://gaablessa.github.io/genialassessoria/index.html " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
 </div>
 </footer>
 

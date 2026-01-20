@@ -860,40 +860,50 @@ footer .footer-redes a:hover {
 footer .footer-dev img {
     height: 18px; /* Ícone do dev bem pequeno */
 } /*===================
+/*===================
    CRÉDITO DESENVOLVEDOR
 ========================= */
+
 footer .footer-dev {
   width: 100%;
-  margin-top: 4px;
-  padding: 3px 0;
+  padding: 8px 0;
+  margin-top: 10px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 6px;
 
-  font-size: 12px;
-  line-height: 1;
-
-  color: rgba(255, 255, 255, 0.55);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-footer .footer-dev img {
-  height: 28px; /* visível e discreta */
-  width: auto;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
 footer .footer-dev a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
+  font-size: 14px;
+  line-height: 1;
+
+  transition: color 0.3s ease;
 }
 
 footer .footer-dev a:hover {
-  color: #cec408;
+  color: #ffffff;
 }
+
+footer .footer-dev img {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+
+footer .footer-dev a:hover {
+  color: #ffffff;
+  transform: scale(1.03);
+}
+
 
 /* =========================
    SCROLLBAR PERSONALIZADA
@@ -920,6 +930,45 @@ footer .footer-dev a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #e6dc1a;
 }
+/* ===== POPUP DE E-MAIL ===== */
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 74, 143, 0.85); /* azul escuro do site */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-bg.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #005bac; /* azul principal */
+  border-radius: 16px;
+  padding: 2.2rem 2rem;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  border-bottom: 8px solid #cec408; /* amarelo do site */
+  color: #ffffff;
+}
+
+.modal-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  line-height: 1
+}
 </style>
 </head>
 <body>
@@ -945,25 +994,27 @@ footer .footer-dev a:hover {
     </ul>
   </nav>
 </header>
-<form action="espacotudonosso@gmail.com" method="post" enctype="text/plain">
+
+<form id="contactForm">
+
   <fieldset>
     <legend>Seus Dados</legend>
 
     <label for="nome">Nome</label>
-    <input type="text" id="nome" name="Nome" placeholder="Seu nome" required />
+    <input type="text" id="nome" placeholder="Seu nome" required />
 
     <label for="email">E-mail</label>
-    <input type="email" id="email" name="E-mail" placeholder="seu@email.com" required />
+    <input type="email" id="email" placeholder="seu@email.com" required />
 
     <label for="telefone">Telefone</label>
-    <input type="tel" id="telefone" name="Telefone" placeholder="(00) 00000-0000" pattern="\(\d{2}\) \d{4,5}-\d{4}" />
+    <input type="tel" id="telefone" placeholder="(11) 99563-7530" />
   </fieldset>
 
   <fieldset>
     <legend>Sua Mensagem</legend>
 
     <label for="assunto">Assunto</label>
-    <select id="assunto" name="Assunto" required>
+    <select id="assunto" required>
       <option value="" disabled selected>Selecione um assunto</option>
       <option value="Orçamento">Orçamento</option>
       <option value="Dúvidas">Dúvidas</option>
@@ -972,43 +1023,22 @@ footer .footer-dev a:hover {
     </select>
 
     <label for="mensagem">Mensagem</label>
-    <textarea id="mensagem" name="Mensagem" placeholder="Escreva sua mensagem..." maxlength="1000" required></textarea>
+    <textarea
+      id="mensagem"
+      placeholder="Escreva sua mensagem..."
+      maxlength="1000"
+      required
+    ></textarea>
   </fieldset>
 
-  <label>
-    <input type="checkbox" name="consentimento" required />
-  Eu concordo com a  <a href="/politica-de-privacidade" target="_blank"> Política de Privacidade</a>.
+  <label class="checkbox">
+    <input type="checkbox" required />
+    Eu concordo com a
+    <a href="/politica-de-privacidade" target="_blank">Política de Privacidade</a>.
   </label>
 
-  <button type="submit" class="btn">Enviar</button>
+  <button type="submit" class="btn">Enviar Mensagem</button>
 </form>
-  
-<section class="contato-mapa-endereco container">
-  <div class="card-endereco">
-    <h3>Nosso Endereço</h3>
-    <div class="info-item">
-      <i class="fas fa-map-marker-alt"></i>
-      <p>Rua Aristides Pires de Andrade, 92, Itapecerica de Serra, SP, Brazil</p>
-    </div>
-    <div class="info-item">
-      <i class="fas fa-phone"></i>
-      <p>(11) 99563-7530</p>
-    </div>
-    <div class="info-item">
-      <i class="fas fa-envelope"></i>
-      <p>espacotudonosso@gmail.com</p>
-    </div>
-  </div>
-  <div class="card-mapa">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.197099524925!2d-46.847228924708255!3d-23.667586478738636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce53dfef802805%3A0x35c4c79d8b0bc3e4!2sR.+Aristides+Pires+de+Andrade,+92+-+Itapecerica+da+Serra,+SP,+Brazil,+06867-650!5e0!3m2!1spt-BR!2sbr!4v1721830891013!5m2!1spt-BR!2sbr"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-    <a class="mapa-botao" href="https://www.google.com/maps/place/Rua+Aristides+Pires+de+Andrade,+92,+Itapecerica+da+Serra,+SP,+Brazil,+06867-650" target="_blank">Abrir no Google Maps</a>
-  </div>
-</section>
 
 
   
@@ -1036,8 +1066,8 @@ footer .footer-dev a:hover {
 
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
-  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
-  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+  <a href="https://gaablessa.github.io/genialassessoria/index.html " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
 </div>
 </footer>
 
@@ -1053,49 +1083,79 @@ footer .footer-dev a:hover {
     <i class="fas fa-moon"></i>
   </button>
 
-  <script>
-    // Menu Mobile
-    const menuToggle = document.getElementById('menu-toggle');
-    const navLinks = document.querySelector('nav ul');
+<script>
+  /* ======================
+     MENU MOBILE
+  ====================== */
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.querySelector('nav ul');
 
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
-      menuToggle.classList.toggle('active');
-      if(navLinks.classList.contains('show')) {
-        menuToggle.setAttribute('aria-label', 'Fechar menu');
-      } else {
-        menuToggle.setAttribute('aria-label', 'Abrir menu');
-      }
-    });
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+    menuToggle.classList.toggle('active');
 
-    // Tema Claro/Escuro
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
+    menuToggle.setAttribute(
+      'aria-label',
+      navLinks.classList.contains('show') ? 'Fechar menu' : 'Abrir menu'
+    );
+  });
 
-    function updateIcon() {
-      if (html.getAttribute('data-theme') === 'dark') {
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // ícone sol para escuro
-      } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; // ícone lua para claro
-      }
-    }
+  /* ======================
+     TEMA CLARO / ESCURO
+  ====================== */
+  const themeToggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
 
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateIcon();
-    });
+  function updateIcon() {
+    themeToggle.innerHTML =
+      html.getAttribute('data-theme') === 'dark'
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+  }
 
-    // Ao carregar, aplicar tema salvo no localStorage (ou padrão dark)
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      html.setAttribute('data-theme', savedTheme);
-    } else {
-      html.setAttribute('data-theme', 'dark');
-    }
+  themeToggle.addEventListener('click', () => {
+    const newTheme =
+      html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
     updateIcon();
-  </script>
+  });
+
+  const savedTheme = localStorage.getItem('theme');
+  html.setAttribute('data-theme', savedTheme ? savedTheme : 'dark');
+  updateIcon();
+
+  /* ======================
+     ENVIO DE EMAIL (MAILTO)
+  ====================== */
+  const form = document.getElementById("contactForm");
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const telefone = document.getElementById("telefone").value;
+      const assunto = document.getElementById("assunto").value;
+      const mensagem = document.getElementById("mensagem").value;
+
+      const corpoEmail =
+        `Nome: ${nome}%0D%0A` +
+        `E-mail: ${email}%0D%0A` +
+        `Telefone: ${telefone}%0D%0A%0D%0A` +
+        `Mensagem:%0D%0A${mensagem}`;
+
+      const mailtoLink =
+        `mailto:gabriellessa24082004@gmail.com` +
+        `?subject=${encodeURIComponent(assunto)}` +
+        `&body=${corpoEmail}`;
+
+      window.location.href = mailtoLink;
+    });
+  }
+</script>
+
 </body>
 </html>

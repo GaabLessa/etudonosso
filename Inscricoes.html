@@ -404,42 +404,50 @@ footer .footer-redes a:hover {
 }
 footer .footer-dev img {
     height: 18px; /* Ícone do dev bem pequeno */
-} /*===================
+} 
+/*===================
    CRÉDITO DESENVOLVEDOR
 ========================= */
+
 footer .footer-dev {
   width: 100%;
-  margin-top: 4px;
-  padding: 3px 0;
+  padding: 8px 0;
+  margin-top: 10px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 6px;
 
-  font-size: 12px;
-  line-height: 1;
-
-  color: rgba(255, 255, 255, 0.55);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-footer .footer-dev img {
-  height: 28px; /* visível e discreta */
-  width: auto;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
 footer .footer-dev a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
+  font-size: 14px;
+  line-height: 1;
+
+  transition: color 0.3s ease;
 }
 
 footer .footer-dev a:hover {
-  color: #cec408;
+  color: #ffffff;
 }
 
+footer .footer-dev img {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+
+footer .footer-dev a:hover {
+  color: #ffffff;
+  transform: scale(1.03);
+}
 /* =========================
    SCROLLBAR PERSONALIZADA
 ========================= */
@@ -615,7 +623,8 @@ footer .footer-dev a:hover {
     <ul>
       <li><a href="index.html">Início</a></li>
       <li><a href="index.html#sobre">Sobre</a></li>
-      <li><a href="acoes.html">Ações Sociais</a></li>
+      <li><a href="Inscricoes.html">Corrida</a></li>
+      
       <li><a href="doacao.html">Doações</a></li>
       <li><a href="voluntariado.html">Voluntariado</a></li>
       <li><a href="contato.html">Contato</a></li>
@@ -654,7 +663,7 @@ footer .footer-dev a:hover {
     <p><strong>📦 Vagas limitadas:</strong> 320 participantes</p>
 
     <p><strong>📍 Retirada do kit:</strong><br>
-      10 a 17 de janeiro<br>
+      10 a 17 de Fevereiro<br>
       • Word Tênis Shopping – Itapecerica da Serra<br>
       • Academia Popular +40 – Jardim das Oliveiras
     </p>
@@ -795,8 +804,8 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
 
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
-  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
-  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+  <a href="https://gaablessa.github.io/genialassessoria/index.html " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
 </div>
 </footer>
 <script>

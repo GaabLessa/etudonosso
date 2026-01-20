@@ -286,43 +286,52 @@ footer .footer-redes a:hover {
     font-size: 14px; /* textos menores para caber */
   }
 }
-footer .footer-dev img {
-    height: 18px; /* Ícone do dev bem pequeno */
-} /*===================
+/*===================
    CRÉDITO DESENVOLVEDOR
 ========================= */
+
 footer .footer-dev {
   width: 100%;
-  margin-top: 4px;
-  padding: 3px 0;
+  padding: 8px 0;
+  margin-top: 10px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 6px;
 
-  font-size: 12px;
-  line-height: 1;
-
-  color: rgba(255, 255, 255, 0.55);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-footer .footer-dev img {
-  height: 28px; /* visível e discreta */
-  width: auto;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
 footer .footer-dev a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
+  font-size: 14px;
+  line-height: 1;
+
+  transition: color 0.3s ease;
 }
 
 footer .footer-dev a:hover {
-  color: #cec408;
+  color: #ffffff;
 }
+
+footer .footer-dev img {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+
+footer .footer-dev a:hover {
+  color: #ffffff;
+  transform: scale(1.03);
+}
+/* =========================
+   SCROLLBAR PERSONALIZADA
+========================= */
 
 
 
@@ -543,6 +552,84 @@ nav ul {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #e6dc1a;
 }
+/* =========================
+   DOAÇÃO MENSAL
+========================= */
+.doacao-mensal {
+  margin: 3rem 0 2rem;
+  text-align: center;
+}
+
+.doacao-mensal h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #004a8f;
+}
+
+.doacao-mensal .descricao {
+  font-size: 1rem;
+  margin-bottom: 1.8rem;
+  color: #000000;
+}
+
+/* Cards */
+.cards-mensais {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.card-mensal {
+  background: #004a8f;
+  border-radius: 14px;
+  padding: 1.6rem 1.4rem;
+  min-width: 140px;
+  cursor: pointer;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  border-left: solid 6px #cec408;
+}
+
+.card-mensal h3 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+.card-mensal p {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Hover */
+.card-mensal:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.35);
+}
+
+/* Card selecionado */
+.card-mensal.ativo {
+  border: 2px solid #cec408;
+  background: #005bac;
+}
+
+/* Destaque (plano recomendado) */
+.card-mensal.destaque {
+  background: linear-gradient(135deg, #005bac, #004a8f);
+  border: 2px solid #cec408;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .card-mensal {
+    min-width: 100%;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -570,28 +657,40 @@ nav ul {
   </nav>
 </header>
 
-<main>
-  <h1>Doe Agora</h1>
-  <label for="amount">Valor da Doação (R$):</label>
-  <input type="number" id="amount" min="1" placeholder="Digite o valor" required>
+<main class="doacao-container">
+  <h1>Faça parte dessa causa 💙</h1>
+  <p class="subtitulo-doacao">
+    Sua contribuição ajuda a manter nossas ações ativas e transforma vidas.
+  </p>
 
-  <label for="frequency">Frequência:</label>
-  <select id="frequency" onchange="checkFrequency()">
-    <option value="unica">Única</option>
-    <option value="mensal">Mensal</option>
-  </select>
+  <div class="doacao-unica">
+    <h2>Doação única</h2>
 
-  <div class="payment-methods">
-    <button class="btn-method btn-mercado" aria-label="Pagar com Mercado Pago" onclick="openMercadoPagoModal()">Mercado Pago</button>
-    <button class="btn-method btn-paypal" aria-label="Pagar com PayPal" onclick="donatePayPal()">PayPal</button>
-    <button id="btn-pix" class="btn-method btn-pix" aria-label="Pagar com Pix" onclick="openPixModal()">Pix</button>
-  </div>
+    <label for="amount">Valor da doação (R$)</label>
+    <input
+      type="number"
+      id="amount"
+      min="1"
+      placeholder="Digite o valor que deseja doar"
+      required
+    >
 
-  <div id="mensal-pix-alert">
-    Doações via Pix só podem ser feitas como <strong>pagamento único</strong>.<br>
-    Para doações <strong>mensais automáticas</strong>, selecione Mercado Pago ou PayPal.
+    <div class="payment-methods">
+      <button class="btn-method btn-mercado" onclick="openMercadoPagoModal()">
+        Cartão / Pix / Boleto
+      </button>
+
+
+
+    </div>
+
+    <p class="aviso-seguranca">
+      Pagamentos processados por plataformas seguras.
+      O valor é creditado diretamente na conta da ONG.
+    </p>
   </div>
 </main>
+<hr class="divisor-doacao">
 
 <!-- Modal Mercado Pago -->
 <div class="modal-bg" id="modal-mercado">
@@ -600,10 +699,46 @@ nav ul {
     <h2 id="mp-title">Doação via Mercado Pago</h2>
     <img src="Imagens/qrcode.png" alt="QR Code Mercado Pago" />
     <p>Chave Pix: <strong id="pix-key">gabriellessa24082004@gmail.com</strong></p>
-    <p>Ou clique no botão abaixo para pagar no site Mercado Pago:</p>
+    <p>
+  O valor informado será confirmado no ambiente seguro do Mercado Pago.
+  Nenhuma informação bancária é armazenada neste site.
+</p>
+<p>Ou clique no botão abaixo para continuar:</p>
     <button onclick="goToMercadoPago()">Pagar no Mercado Pago</button>
   </div>
 </div>
+
+<section class="doacao-mensal">
+  <h2>Torne-se um doador mensal</h2>
+  <p class="descricao">
+    Com uma doação mensal, você garante a continuidade dos nossos projetos
+    e nos ajuda a planejar ações de longo prazo.
+  </p>
+
+  <div class="cards-mensais">
+    <div class="card-mensal" onclick="selecionarPlanoMensal(10)">
+      <h3>R$ 10</h3>
+      <p>por mês</p>
+    </div>
+
+    <div class="card-mensal" onclick="selecionarPlanoMensal(25)">
+      <h3>R$ 25</h3>
+      <p>por mês</p>
+    </div>
+
+    <div class="card-mensal destaque" onclick="selecionarPlanoMensal(50)">
+      <h3>R$ 50</h3>
+      <p>por mês</p>
+    </div>
+  </div>
+
+  <p class="mensal-info">
+    As doações mensais são processadas pelo Mercado Pago,
+    com cobrança automática e total segurança.
+  </p>
+</section>
+
+
 
 <!-- Modal Pix -->
 <div class="modal-bg" id="modal-pix">
@@ -651,9 +786,10 @@ nav ul {
     </div>
 
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
+    <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
-  <img src="Imagens/logogln.jpg" alt="Desenvolvido por Gabriel Lessa Nascimento">
-  Desenvolvido por <strong>Gabriel Lessa Nascimento</strong>
+  <a href="https://gaablessa.github.io/genialassessoria/index.html " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
 </div>
 </footer>
 
@@ -661,50 +797,54 @@ nav ul {
 
 
 <script>
-// Links para pagamentos únicos e mensais - substitua pelos seus próprios
+/* ==============================
+   LINKS DE PAGAMENTO
+================================ */
+
+// Doação única (Mercado Pago Checkout)
 const mercadoPagoUrlUnica = "https://link.mercadopago.com.br/SEU_LINK_UNICO_AQUI";
-const mercadoPagoUrlMensal = "https://link.mercadopago.com.br/SEU_LINK_MENSAL_AQUI";
 
-const paypalUrlUnica = "https://www.paypal.com/donate?hosted_button_id=SEU_ID_UNICO_AQUI";
-const paypalUrlMensal = "https://www.paypal.com/donate?hosted_button_id=SEU_ID_MENSAL_AQUI";
+// Planos mensais (Mercado Pago Assinaturas)
+const planosMensais = {
+  10: "https://link.mercadopago.com.br/PLANO_10",
+  25: "https://link.mercadopago.com.br/PLANO_25",
+  50: "https://link.mercadopago.com.br/PLANO_50"
+};
 
+// PayPal (doação única)
+const paypalUrlUnica = "https://www.paypal.com/donate?hosted_button_id=SEU_ID_AQUI";
+
+/* ==============================
+   VARIÁVEIS DE ESTADO
+================================ */
+let planoMensalSelecionado = null;
+
+/* ==============================
+   FUNÇÕES UTILITÁRIAS
+================================ */
 function getAmount() {
-  const amountInput = document.getElementById("amount");
-  const val = parseFloat(amountInput.value);
-  if (!val || val <= 0) {
+  const input = document.getElementById("amount");
+  if (!input) return null;
+
+  const valor = parseFloat(input.value);
+  if (!valor || valor <= 0) {
     alert("Por favor, insira um valor válido para a doação.");
     return null;
   }
-  return val.toFixed(2);
+
+  return valor.toFixed(2);
 }
 
-function getFrequency() {
-  const freqSelect = document.getElementById("frequency");
-  return freqSelect.value; // "unica" ou "mensal"
-}
-
-function checkFrequency() {
-  const freq = getFrequency();
-  const btnPix = document.getElementById("btn-pix");
-  const alertMsg = document.getElementById("mensal-pix-alert");
-  if (freq === "mensal") {
-    // Desabilita Pix e mostra alerta
-    btnPix.disabled = true;
-    alertMsg.style.display = "block";
-  } else {
-    // Habilita Pix e esconde alerta
-    btnPix.disabled = false;
-    alertMsg.style.display = "none";
-  }
-}
-
-// Inicializa o estado do botão Pix conforme a frequência inicial
-window.onload = () => {
-  checkFrequency();
-};
-
+/* ==============================
+   MERCADO PAGO
+================================ */
 function openMercadoPagoModal() {
-  if (!getAmount()) return;
+  const valor = getAmount();
+  if (!valor) return;
+
+  document.getElementById("mp-title").innerText =
+    `Doação via Mercado Pago — R$ ${valor}`;
+
   closePixModal();
   document.getElementById("modal-mercado").classList.add("active");
 }
@@ -714,24 +854,27 @@ function closeMercadoPagoModal() {
 }
 
 function goToMercadoPago() {
-  const freq = getFrequency();
-  if (freq === "mensal") {
-    window.location.href = mercadoPagoUrlMensal;
+  if (planoMensalSelecionado) {
+    // Doação mensal
+    window.location.href = planosMensais[planoMensalSelecionado];
   } else {
+    // Doação única
+    if (!getAmount()) return;
     window.location.href = mercadoPagoUrlUnica;
   }
 }
 
+/* ==============================
+   PAYPAL (SOMENTE DOAÇÃO ÚNICA)
+================================ */
 function donatePayPal() {
   if (!getAmount()) return;
-  const freq = getFrequency();
-  if (freq === "mensal") {
-    window.location.href = paypalUrlMensal;
-  } else {
-    window.location.href = paypalUrlUnica;
-  }
+  window.location.href = paypalUrlUnica;
 }
 
+/* ==============================
+   PIX (SOMENTE DOAÇÃO ÚNICA)
+================================ */
 function openPixModal() {
   if (!getAmount()) return;
   closeMercadoPagoModal();
@@ -744,35 +887,56 @@ function closePixModal() {
 
 function copyPix() {
   const pixKey = document.getElementById("pix-key").innerText;
-  navigator.clipboard.writeText(pixKey).then(() => {
-    alert("Chave Pix copiada para a área de transferência!");
-  }).catch(() => {
-    alert("Erro ao copiar a chave Pix. Por favor, copie manualmente.");
-  });
+  navigator.clipboard.writeText(pixKey)
+    .then(() => alert("Chave Pix copiada com sucesso!"))
+    .catch(() => alert("Não foi possível copiar a chave Pix."));
 }
 
-const menuToggle = document.getElementById('menu-toggle');
-const navMenu = document.querySelector('nav ul');
+/* ==============================
+   DOAÇÃO MENSAL (CARDS)
+================================ */
+function selecionarPlanoMensal(valor) {
+  planoMensalSelecionado = valor;
 
-menuToggle.addEventListener('click', (e) => {
-  e.stopPropagation(); // para não disparar o listener do document abaixo
+  // Feedback visual
+  document.querySelectorAll(".card-mensal").forEach(card => {
+    card.classList.remove("ativo");
+  });
 
-  const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-  menuToggle.setAttribute('aria-expanded', !expanded);
-  menuToggle.classList.toggle('active');
-  navMenu.classList.toggle('show');
-});
+  event.currentTarget.classList.add("ativo");
 
-// Fecha o menu se clicar fora dele e do botão
-document.addEventListener('click', (e) => {
-  if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-    navMenu.classList.remove('show');
-    menuToggle.classList.remove('active');
-    menuToggle.setAttribute('aria-expanded', false);
-  }
-});
+  // Abre Mercado Pago direto
+  document.getElementById("mp-title").innerText =
+    `Doação mensal — R$ ${valor}/mês`;
 
+  document.getElementById("modal-mercado").classList.add("active");
+}
+
+/* ==============================
+   MENU MOBILE
+================================ */
+const menuToggle = document.getElementById("menu-toggle");
+const navMenu = document.querySelector("nav ul");
+
+if (menuToggle && navMenu) {
+  menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", !expanded);
+    menuToggle.classList.toggle("active");
+    navMenu.classList.toggle("show");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+      navMenu.classList.remove("show");
+      menuToggle.classList.remove("active");
+      menuToggle.setAttribute("aria-expanded", false);
+    }
+  });
+}
 </script>
+
 
 </body>
 </html>
