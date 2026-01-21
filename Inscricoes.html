@@ -104,7 +104,7 @@
   }
 
   button {
-    background: #005bac;
+    background: #003d7a;
     color: #fff;
     padding: 12px 20px;
     font-size: 1rem;
@@ -118,6 +118,7 @@
 
   button:hover {
     background: #003d7a;
+    border-bottom: solid 6px #cec408;
   }
 
   #message {
@@ -604,6 +605,18 @@ footer .footer-dev a:hover {
   cursor: grabbing;
 }
 
+/* Esconde o botão no desktop */
+#menu-toggle {
+  display: none;
+}
+
+/* Mostra somente no mobile */
+@media (max-width: 768px) {
+  #menu-toggle {
+    display: flex; /* ou block */
+  }
+}
+
 
 </style>
 </head>
@@ -624,8 +637,7 @@ footer .footer-dev a:hover {
       <li><a href="index.html">Início</a></li>
       <li><a href="index.html#sobre">Sobre</a></li>
       <li><a href="Inscricoes.html">Corrida</a></li>
-      
-      <li><a href="doacao.html">Doações</a></li>
+      <!--  <li><a href="doacao.html">Doações</a></li>-->
       <li><a href="voluntariado.html">Voluntariado</a></li>
       <li><a href="contato.html">Contato</a></li>
     </ul>
@@ -663,7 +675,7 @@ footer .footer-dev a:hover {
     <p><strong>📦 Vagas limitadas:</strong> 320 participantes</p>
 
     <p><strong>📍 Retirada do kit:</strong><br>
-      10 a 17 de Fevereiro<br>
+      08 a 15 de Fevereiro<br>
       • Word Tênis Shopping – Itapecerica da Serra<br>
       • Academia Popular +40 – Jardim das Oliveiras
     </p>
