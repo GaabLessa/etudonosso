@@ -1476,7 +1476,7 @@ html[data-theme='dark'] .doacoes h2 {
     Corrida e Caminhada pela Amizade — 22 de Fevereiro
   </span>
 
-  <a href="inscricao.html" class="banner-btn">Inscreva-se</a>
+  <a href="Inscricoes.html" class="banner-btn">Inscreva-se</a>
 </div>
 <!-- FIM DO BANNER -->
 
@@ -1772,27 +1772,19 @@ html[data-theme='dark'] .doacoes h2 {
       menuToggle.setAttribute('aria-expanded', false);
     }
   });
-  const slides = document.querySelectorAll(".vol-slide");
-let index = 0;
-
-function nextSlide() {
-  index = (index + 1) % slides.length;
-  document.querySelector(".slides").style.transform = `translateX(-${index * 100}%)`;
-}
-
-setInterval(nextSlide, 4000); // muda a cada 4 segundos
-
+/* CARROSSEL MOBILE */
 if (window.innerWidth <= 768) {
-  const slides = document.querySelector('.carrossel-mobile .slides');
-  const total = document.querySelectorAll('.carrossel-mobile .vol-slide').length;
-  let index = 0;
+  const slidesMobile = document.querySelector('.carrossel-mobile .slides');
+  const totalMobile = document.querySelectorAll('.carrossel-mobile .vol-slide').length;
+  let indexMobile = 0;
 
   setInterval(() => {
-    index = (index + 1) % total;
-    slides.style.transform = `translateX(-${index * 100}%)`;
+    indexMobile = (indexMobile + 1) % totalMobile;
+    slidesMobile.style.transform = `translateX(-${indexMobile * 100}%)`;
   }, 3000);
 }
 
+/* CARROSSEL PC */
 const slidesPC = document.querySelector('.slides-pc');
 const totalPC = document.querySelectorAll('.slides-pc .vol-slide').length;
 let indexPC = 0;
@@ -1800,7 +1792,7 @@ let indexPC = 0;
 setInterval(() => {
   indexPC = (indexPC + 1) % totalPC;
   slidesPC.style.transform = `translateX(-${indexPC * 100}%)`;
-}, 4000);
+}, 5000);
 </script>
 
 </body>
