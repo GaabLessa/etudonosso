@@ -108,7 +108,7 @@ html[data-theme='dark'] {
 
     /* Hero */
     .hero {
-      max-width: 1100px;
+      max-width: 1400px;
       margin: 3rem auto 5rem;
       padding: 0 2rem;
       text-align: center;
@@ -117,7 +117,7 @@ html[data-theme='dark'] {
 
     .hero img {
       width: 100%;
-      max-height: 480px;
+      max-height: 500px;
       object-fit: cover;
       border-radius: 8px;
       box-shadow: 0 10px 20px rgb(0 0 0 / 0.1);
@@ -829,7 +829,7 @@ nav ul {
   height: auto;
   object-fit: cover; /* cobre a área sem distorcer */
   display: block;
-  max-height: 80vh;
+  max-height: 100vh;
   position: relative;
   z-index: 0; /* atrás do overlay */
 }
@@ -1385,13 +1385,61 @@ footer .footer-redes a:hover {
   color: white;
 }
 
-
-
 /* Título da seção de doações */
 html[data-theme='dark'] .doacoes h2 {
   color: #ffffff;
 }
 
+.vol-slide img {
+  width: 100%;
+  height: 80vh; /* altura máxima visível, ajuste conforme desejar */
+  object-fit: cover; /* mantém proporção e corta o excesso */
+  display: block;
+}
+
+/* DESKTOP */
+.carrossel-mobile {
+  display: none;
+}
+
+.carrossel-pc {
+  display: flex;
+  gap: 20px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .carrossel-pc {
+    display: none;
+  }
+
+  .carrossel-mobile {
+    display: block;
+    overflow: hidden;
+  }
+
+  .slides {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .vol-slide {
+    min-width: 100%;
+  }
+}
+.carrossel-pc {
+  overflow: hidden;
+  width: 100%;
+}
+
+.slides-pc {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slides-pc .vol-slide {
+  min-width: 100%; /* cada slide ocupa 100% da tela */
+}
 
 
   </style>
@@ -1430,17 +1478,65 @@ html[data-theme='dark'] .doacoes h2 {
 
   <a href="inscricao.html" class="banner-btn">Inscreva-se</a>
 </div>
-  <div class="carrossel">
-  <div class="slides">
-    <div class="vol-slide"><img src= "Imagens/colorindoaquebrada.jpeg" alt="Imagem 1"></div>
-    <div class="vol-slide"><img src="Imagens/artesmarciais.jpeg" alt="Imagem 2"></div>
-    <div class="vol-slide"><img src= "Imagens/corrida.png"  alt="Imagem 3"></div>
-    <div class="vol-slide"><img src="Imagens/acad5.png" alt="Imagem 4"></div>
-    <div class="vol-slide"><img src="Imagens/futebol2.png" alt=Imagem 5"></div>
-    <div class="vol-slide"><img src="Imagens/cosplay03.webp" alt="Imagem 6"></div>
-    <div class="vol-slide"><img src="Imagens/tudonosso4.jpg" alt="Imagem 7"></div>
+<!-- FIM DO BANNER -->
 
+<!-- IMAGENS PARA PC -->
+<!-- IMAGENS PARA PC -->
+<div class="carrossel-pc">
+  <div class="slides-pc">
+    <div class="vol-slide">
+      <img src="Imagens/sorriso.jpeg" alt="Imagem PC 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/colorindoaquebrada.jpeg2.jpeg" alt="Imagem PC 2">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/artesmarciais.jpg" alt="Imagem PC 3">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/corrida.png" alt="Imagem PC 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/cosplay01.webp" alt="Imagem PC 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/futebol4.jpeg" alt="Imagem PC 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/acad2pc.png" alt="Imagem PC 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/acad.JPG" alt="Imagem PC 1">
+    </div>
   </div>
+</div>
+
+<!-- IMAGENS PARA MOBILE (CARROSSEL) -->
+<div class="carrossel-mobile">
+  <div class="slides">
+    <div class="vol-slide">
+      <img src="Imagens/sorrisomobile.jpeg" alt="Imagem Mobile 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/colorindoquebradamobile.jpeg" alt="Imagem Mobile 2">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/acadmobile.jpeg" alt="Imagem Mobile 3">
+    </div>
+        <div class="vol-slide">
+      <img src="Imagens/artesmarciaismobile.jpeg .jpeg" alt="Imagem Mobile 1">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/futebolmobile.jpeg" alt="Imagem Mobile 2">
+    </div>
+    <div class="vol-slide">
+      <img src="Imagens/sorrisomobile2.jpeg" alt="Imagem Mobile 3">
+    </div>
+  </div>
+</div>
+
+</div>
+
     <section class="hero">
 
     <div class="hero-text">
@@ -1448,7 +1544,7 @@ html[data-theme='dark'] .doacoes h2 {
 <h2> Espaço Socio-Cultural e Esportivo É Tudo Nosso </h2>
 
       <div class="hero-buttons">
-        <a href="Inscricoes.html" class="btn">inscreva -se </a>
+ <!--  <a href="inscricao.html" class="banner-btn">Inscreva-se</a>-->
       </div>
       
     </div>
@@ -1616,14 +1712,13 @@ html[data-theme='dark'] .doacoes h2 {
 
     <!-- Redes -->
     <div class="footer-col footer-redes">
-      <a href="#"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
-      <a href="#"><i class="fab fa-facebook"></i> tudonossosim</a>
-      <a href="#"><i class="fab fa-whatsapp"></i> (11) 99563-7530</a>
+      <a href="https://www.instagram.com/espacoetudonosso/" target="_blank"><i class="fab fa-instagram"></i> @espacoetudonosso</a>
+      <a href="https://www.facebook.com/tudonossosim" target="_blank"><i class="fab fa-facebook"></i> tudonossosim</a>
     </div>
 
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
-  <a href="https://gaablessa.github.io/genialassessoria/index.html " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
+  <a href="https://genialassessoria.com.br " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
   Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
 </div>
 </footer>
@@ -1687,6 +1782,25 @@ function nextSlide() {
 
 setInterval(nextSlide, 4000); // muda a cada 4 segundos
 
+if (window.innerWidth <= 768) {
+  const slides = document.querySelector('.carrossel-mobile .slides');
+  const total = document.querySelectorAll('.carrossel-mobile .vol-slide').length;
+  let index = 0;
+
+  setInterval(() => {
+    index = (index + 1) % total;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  }, 3000);
+}
+
+const slidesPC = document.querySelector('.slides-pc');
+const totalPC = document.querySelectorAll('.slides-pc .vol-slide').length;
+let indexPC = 0;
+
+setInterval(() => {
+  indexPC = (indexPC + 1) % totalPC;
+  slidesPC.style.transform = `translateX(-${indexPC * 100}%)`;
+}, 4000);
 </script>
 
 </body>
