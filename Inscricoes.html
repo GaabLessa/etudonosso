@@ -635,14 +635,16 @@ footer .footer-dev a:hover {
   <nav id="nav-menu">
     <ul>
       <li><a href="index.html">Início</a></li>
-      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="matriculas.html">Matriculas</a></li>
       <li><a href="Inscricoes.html">Corrida</a></li>
+      <li><a href="acoes.html">Ações Sociais</a></li>
       <!--  <li><a href="doacao.html">Doações</a></li>-->
       <li><a href="voluntariado.html">Voluntariado</a></li>
       <li><a href="contato.html">Contato</a></li>
     </ul>
   </nav>
-</header>
+</header> 
 <!-- BOTÃO PARA REABRIR O MODAL -->
 <button id="abrir-regras" class="btn-regras">
   Ver regras da corrida
@@ -777,15 +779,19 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
       <div class="logo-apoio"><img src="Imagens/secretaria-convertido-de-png.webp" alt="Apoio 1"></div>
       <div class="logo-apoio"><img src="Imagens/logo.jpg" alt="Apoio 2"></div>
       <div class="logo-apoio"><img src="Imagens/prefeitura.jpg" alt="Apoio 3"></div>
-      <div class="logo-apoio"><img src="Imagens/mandu_assistencia_page_1-convertido-de-png.webp" alt="Apoio 4"></div>
-      <div class="logo-apoio"><img src="Imagens/churrasquinhododao.webp" alt="Apoio 5"></div>
-      <div class="logo-apoio"><img src="Imagens/titanium.png" alt="Apoio 6"></div>
-      <div class="logo-apoio"><img src="Imagens/sportnow.jpeg" alt="Apoio 7"></div>
-      <div class="logo-apoio"><img src="Imagens/apvs.jpeg" alt="Apoio 8"></div>
-      <div class="logo-apoio"><img src="Imagens/caprichoso.jpeg" alt="Apoio 9"></div>
-      <div class="logo-apoio"><img src="Imagens/malu.jpeg" alt="Apoio 10"></div>      
-      <div class="logo-apoio"><img src="Imagens/coquinhoreciclagem.jpeg" alt="Apoio 11"></div>
-      <div class="logo-apoio"><img src="Imagens/vocepode.jpeg" alt="Apoio 12"></div>
+      <div class="logo-apoio"><img src="Imagens/logogenial.png" alt="Apoio 4"></div>
+      <div class="logo-apoio"><img src="Imagens/adv.png" alt="Apoio 5"></div>
+      <div class="logo-apoio"><img src="Imagens/soma_mais_acao.png" alt="Apoio 6"></div>
+      <div class="logo-apoio"><img src="Imagens/logo.png" alt="Apoio 7"></div>
+      <div class="logo-apoio"><img src="Imagens/mandu_assistencia_page_1-convertido-de-png.webp" alt="Apoio 8"></div>
+      <div class="logo-apoio"><img src="Imagens/churrasquinhododao.webp" alt="Apoio 9"></div>
+      <div class="logo-apoio"><img src="Imagens/titanium.png" alt="Apoio 10"></div>
+      <div class="logo-apoio"><img src="Imagens/sportnow.jpeg" alt="Apoio 11"></div>
+      <div class="logo-apoio"><img src="Imagens/apvs.jpeg" alt="Apoio 12"></div>
+      <div class="logo-apoio"><img src="Imagens/caprichoso.jpeg" alt="Apoio 13"></div>
+      <div class="logo-apoio"><img src="Imagens/malu.jpeg" alt="Apoio 14"></div>      
+      <div class="logo-apoio"><img src="Imagens/coquinhoreciclagem.jpeg" alt="Apoio 15"></div>
+      <div class="logo-apoio"><img src="Imagens/vocepode.jpeg" alt="Apoio 16"></div>
       
       <!-- adicione mais logos conforme necessário -->
     </div>
@@ -802,7 +808,7 @@ Ao participar, declaro estar em boas condições de saúde, assumindo total resp
 
     <!-- Contatos -->
     <div class="footer-col footer-contato">
-      <p><i class="fas fa-map-marker-alt"></i> Rua Aristides Pires de Andrade, 92 - Itapecerica da Serra/SP</p>
+      <p><i class="fas fa-map-marker-alt"></i> Rua Igarapé, 100, Santa Julia, Itapecerica da Serra, SP, Brazil, 06867-450</p>
       <p><i class="fas fa-phone"></i> (11) 99563-7530</p>
       <p><i class="fas fa-envelope"></i> espacotudonosso@gmail.com</p>
     </div>
@@ -870,9 +876,36 @@ popup.addEventListener("click", (e) => {
   if (e.target === popup) popup.classList.add("hidden");
 });
 
+/* ================= VERIFICAR VAGAS (ADICIONADO) ================= */
+async function verificarVagas() {
+  try {
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycbxT2T9yg-8rxpJVplbUzWpwh37Anl3Ao9H76cNGkAN0R2Evy3tnk3JmeBPpVaR4d1Rs/exec",
+      { method: "GET" }
+    );
+
+    const data = await res.json();
+
+    if (!data.sucesso) {
+      showPopup(data.mensagem || "Inscrições encerradas.", "error", false);
+      return false;
+    }
+
+    return true;
+
+  } catch (err) {
+    showPopup("Erro ao verificar vagas.", "error", false);
+    return false;
+  }
+}
+
 /* ================= SUBMIT FORM ================= */
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // 🔒 CHECA VAGAS ANTES DE ENVIAR (ADICIONADO)
+  const vagasDisponiveis = await verificarVagas();
+  if (!vagasDisponiveis) return;
 
   const formData = new FormData();
   formData.append("nome", document.getElementById('nome').value.trim());
@@ -903,7 +936,7 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbwuVzesImJuBVGXqb2y9uh6slt1AOt3xOOLCIQ-8UdLplkZNu-JxMFdqwco7aNx9Yr5/exec",
+      "https://script.google.com/macros/s/AKfycbxT2T9yg-8rxpJVplbUzWpwh37Anl3Ao9H76cNGkAN0R2Evy3tnk3JmeBPpVaR4d1Rs/exec",
       {
         method: "POST",
         body: formData
@@ -912,13 +945,11 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    // aqui entra VAGAS ESGOTADAS / CPF DUPLICADO / ERRO DO GAS
     if (!data.sucesso) {
       showPopup(data.mensagem, "error", false);
       return;
     }
 
-    // sucesso real
     showPopup(data.mensagem || "Inscrição enviada com sucesso! ✅", "success", true);
     form.reset();
 
@@ -1061,4 +1092,108 @@ carousel.addEventListener('touchmove', (e) => {
   const walk = (e.touches[0].pageX - startX) * 1.4;
   carousel.scrollLeft = scrollLeft - walk;
 }, { passive: true });
+
+/* ================= BLOQUEAR FORM AO CLICAR SE VAGAS ESGOTADAS (ADICIONADO) ================= */
+
+// pega todos os campos do formulário
+const camposForm = form.querySelectorAll("input, select, textarea, label");
+
+async function bloquearSeEncerrado(e) {
+  const vagasDisponiveis = await verificarVagas();
+
+  if (!vagasDisponiveis) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+}
+
+// adiciona verificação em QUALQUER clique ou foco
+camposForm.forEach(campo => {
+  campo.addEventListener("click", bloquearSeEncerrado);
+  campo.addEventListener("focus", bloquearSeEncerrado);
+});
+
+/* ================= CACHE DE VAGAS (ANTI-LOADING) ================= */
+
+const CACHE_KEY_VAGAS = "status_vagas";
+const CACHE_TTL = 2 * 60 * 1000; // 2 minutos
+
+function getCacheVagas() {
+  const cache = localStorage.getItem(CACHE_KEY_VAGAS);
+  if (!cache) return null;
+
+  const data = JSON.parse(cache);
+  if (Date.now() - data.time > CACHE_TTL) {
+    localStorage.removeItem(CACHE_KEY_VAGAS);
+    return null;
+  }
+
+  return data.status;
+}
+
+function setCacheVagas(status) {
+  localStorage.setItem(
+    CACHE_KEY_VAGAS,
+    JSON.stringify({ status, time: Date.now() })
+  );
+}
+
+let verificacaoEmAndamento = false;
+
+async function checarVagasComCache(e) {
+  const cache = getCacheVagas();
+
+  // 🚀 SE TEM CACHE, NEM MOSTRA LOADING
+  if (cache === false) {
+    showPopup("⚠️ Inscrições encerradas.", "error", false);
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+
+  if (cache === true) return true;
+
+  // 🔄 NÃO TEM CACHE → MOSTRA LOADING
+  if (verificacaoEmAndamento) return;
+  verificacaoEmAndamento = true;
+
+  showPopup("🔄 Verificando vagas...", "success", false);
+
+  try {
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycbxT2T9yg-8rxpJVplbUzWpwh37Anl3Ao9H76cNGkAN0R2Evy3tnk3JmeBPpVaR4d1Rs/exec",
+      { method: "GET" }
+    );
+
+    const data = await res.json();
+
+    if (!data.sucesso) {
+      setCacheVagas(false);
+      showPopup(data.mensagem || "Inscrições encerradas.", "error", false);
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    // vagas OK
+    setCacheVagas(true);
+    popup.classList.add("hidden");
+
+  } catch (err) {
+    showPopup("Erro ao verificar vagas.", "error", false);
+  } finally {
+    verificacaoEmAndamento = false;
+  }
+}
+
+// 👂 escuta qualquer interação inicial
+document.querySelectorAll(
+  "#inscricao-form input, #inscricao-form select, #inscricao-form textarea, #inscricao-form label"
+).forEach(el => {
+  el.addEventListener("mousedown", checarVagasComCache, true);
+  el.addEventListener("touchstart", checarVagasComCache, true);
+  el.addEventListener("focus", checarVagasComCache, true);
+});
+
 </script>
