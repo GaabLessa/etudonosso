@@ -836,7 +836,6 @@ footer .footer-dev a:hover {
 
 
 <main>
-  <h1>Inscrição Corrida</h1>
 
 <form id="inscricao-form">
 
@@ -891,7 +890,7 @@ footer .footer-dev a:hover {
   <input type="text" id="serie" required>
 
   <label>Horário em que estuda *</label>
-  <select id="turno" required>
+  <select id="turno">
     <option value="">Selecione</option>
     <option>Manhã</option>
     <option>Tarde</option>
@@ -917,13 +916,24 @@ footer .footer-dev a:hover {
 
     <label>
       <input type="checkbox" name="modalidades" value="Ballet Juvenil / Jazz">
-      <span>Ballet Juvenil / Jazz</span>
+      <span>Ballet Juvenil / Jazz - Rua Igarapé</span>
     </label>
 
     <label>
       <input type="checkbox" name="modalidades" value="Musicalização Infantil">
       <span>Musicalização Infantil</span>
     </label>
+    <!-- novos polos -->
+        <label>
+      <input type="checkbox" name="modalidades" value="Ballet Baby - jurua">
+      <span>Ballet Baby Class – Rua Juruá (Sagrado Coração)</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="modalidades" value="Ballet Infantil - jurua">
+      <span>Ballet Infantil – Rua Juruá (Sagrado Coração)</span>
+    </label>
+
   </div>
 
   <div class="grupo-modalidade">
@@ -1051,7 +1061,7 @@ footer .footer-dev a:hover {
     <!-- CRÉDITO (DISCRETO, NO FINAL) -->
 <div class="footer-dev">
   <a href="https://genialassessoria.com.br " target="_blank" rel="noopener noreferrer" ><img src="Imagens/logo-genial-branca-final.png" alt="Desenvolvido por Gabriel Lessa Nascimento">
-  Desenvolvido por <strong>Genial Assessoria Adiministrativa</strong> </a>
+  Desenvolvido por <strong>Genial Assessoria Administrativa</strong> </a>
 </div>
 </footer>
 
@@ -1135,7 +1145,7 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbxfWY8VDpxxyiD26g1oBiRaHKYDLHhi9393B1atsfxnMz-vaLMHx0GA16VedZ_gpt7W6w/exec",
+      "https://script.google.com/macros/s/AKfycbx-l7FF1WYOc6osPGKUYkh2BfrfLHT8xlUtlFcY8de0WpS3zVD-sEWUQmHcHFmC6PJtRQ/exec",
       { method: "POST", body: formData }
     );
 
