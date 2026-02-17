@@ -1125,30 +1125,37 @@ form.addEventListener('submit', async (e) => {
   checkboxes.forEach(cb => modalidades.push(cb.value));
   formData.append("modalidades", modalidades);
 
-  // Validação mínima
-  if (!formData.get("aluno_nome") || !formData.get("data_nascimento") ||
-      !formData.get("responsavel_nome") || !formData.get("telefone") ||
-      modalidades.length === 0) {
-    showPopup("Preencha todos os campos obrigatórios (*)", "error", false);
-    return;
-  }
+// Validação mínima
+if (
+  !formData.get("aluno_nome") ||
+  !formData.get("data_nascimento") ||
+  !formData.get("responsavel_nome") ||
+  !formData.get("telefone") ||
+  modalidades.length === 0
+) {
+  showPopup("Preencha todos os campos obrigatórios (*)", "error", false);
+  return;
+}
 
-  try {
-    const res = await fetch(
-      "https://script.google.com/macros/s/AKfycbxfWY8VDpxxyiD26g1oBiRaHKYDLHhi9393B1atsfxnMz-vaLMHx0GA16VedZ_gpt7W6w/exec",
-      { method: "POST", body: formData }
-    );
+/* 🔥 ADICIONADO AQUI — popup imediato */
+showPopup("⏳ Enviando inscrição...", "success", false);
 
-    if (res.ok) {
-      showPopup("Pré-inscrição enviada com sucesso! ✅", "success", true);
-      form.reset();
-    } else {
-      showPopup("Erro ao enviar inscrição.", "error", false);
-    }
-  } catch (err) {
-    showPopup("Erro de conexão com o servidor.", "error", false);
-    console.error(err);
+try {
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyrxd5tRUISNmNgH0ZEuS8Uy0OYifdkq3-prLHzJcq6Y-Y4v1gjWtDi_d6gucC9QVQg/exec",
+    { method: "POST", body: formData }
+  );
+
+  if (res.ok) {
+    showPopup("Pré-inscrição enviada com sucesso! ✅", "success", true);
+    form.reset();
+  } else {
+    showPopup("Erro ao enviar inscrição.", "error", false);
   }
+} catch (err) {
+  showPopup("Erro de conexão com o servidor.", "error", false);
+  console.error(err);
+}
 });
 
 /* ================= MODAL REGRAS ================= */
