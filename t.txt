@@ -1,0 +1,1532 @@
+// ==================PAGO==========================================
+// CORRIDA E CAMINHADA PELA AMIZADE
+// É TUDO NOSSO
+// ============================================================
+
+// ============================
+// CONFIGURAÇÕES
+// ============================
+
+const LIMITE_VAGAS = 400;
+const BLOQUEIO_ATIVO = true;
+const ALERTA_POUCAS_VAGAS = 30;
+
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbzJ7nBJKv0ta4jxsgucH3cObIMvCSQKpczQdku-_nwWpItDDiErKDSauZUCVwbvwp5G/exec";
+
+const SITE_URL = "https://espacotudonosso.com.br/";
+
+const NOME_ABA = "inscritos";
+
+
+// ============================================================
+// POST
+// RECEBE:
+// 1 - INSCRIÇÃO DO SITE
+// 2 - WEBHOOK DO MERCADO PAGO
+// ============================================================
+
+function doPost(e) {
+
+  try {
+
+    // ========================================================
+    // PRIMEIRO: VERIFICAR SE É WEBHOOK DO MERCADO PAGO
+    // ========================================================
+
+    const parametros = e && e.parameter
+      ? e.parameter
+      : {};
+
+    const tipoWebhook = parametros.type || "";
+
+    const idWebhook =
+      parametros["data.id"] ||
+      parametros.data_id ||
+      "";
+
+    if (
+      tipoWebhook === "payment" &&
+      idWebhook
+    ) {
+
+      processarWebhookMercadoPago(
+        idWebhook
+      );
+
+      return json({
+        sucesso: true
+      });
+    }
+
+
+    // ========================================================
+    // SEGUNDO: INSCRIÇÃO NORMAL
+    // ========================================================
+
+    const data =
+      e && e.parameter
+        ? e.parameter
+        : {};
+
+    return processarInscricao(data);
+
+
+  } catch (err) {
+
+    Logger.log(
+      "ERRO DO POST: " +
+      err.message
+    );
+
+    return json({
+      sucesso: false,
+      mensagem:
+        "Erro interno: " +
+        err.message
+    });
+  }
+}
+
+
+// ============================================================
+// PROCESSAR INSCRIÇÃO
+// ============================================================
+
+function processarInscricao(data) {
+
+  const nome =
+    data.nome || "";
+
+  const data_nascimento =
+    data.data_nascimento || "";
+
+  const cidade =
+    data.cidade || "";
+
+  const cpf =
+    data.cpf || "";
+
+  const email =
+    data.email || "";
+
+  const telefone =
+    data.telefone || "";
+
+  const modalidade =
+    data.modalidade || "";
+
+  const tipo_participacao =
+    data.tipo_participacao || "";
+
+  const sexo =
+    data.sexo || "";
+
+  const tamanho_camisa =
+    data.tamanho_camisa || "";
+
+  const retirada_kit =
+    data.retirada_kit || "";
+
+  const squeeze =
+    String(data.squeeze || "NAO")
+      .toUpperCase();
+
+
+  let valorDoacao =
+    Number(
+      String(
+        data.valor_doacao || "0"
+      ).replace(",", ".")
+    );
+
+
+  if (isNaN(valorDoacao)) {
+    valorDoacao = 0;
+  }
+
+
+  // ==========================================================
+  // VALIDAÇÃO
+  // ==========================================================
+
+  if (
+    !nome ||
+    !data_nascimento ||
+    !cidade ||
+    !cpf ||
+    !email ||
+    !modalidade ||
+    !tipo_participacao
+  ) {
+
+    return json({
+      sucesso: false,
+      mensagem:
+        "Preencha todos os campos obrigatórios."
+    });
+  }
+
+
+  // ==========================================================
+  // VERIFICAR SQUEEZE
+  // ==========================================================
+
+  const querSqueeze =
+    squeeze === "SIM" ||
+    squeeze === "S" ||
+    squeeze === "TRUE";
+
+
+  if (
+    querSqueeze &&
+    valorDoacao < 10
+  ) {
+
+    return json({
+      sucesso: false,
+      mensagem:
+        "Para receber a garrafinha squeeze, a doação mínima é de R$ 10,00."
+    });
+  }
+
+
+  if (!querSqueeze) {
+    valorDoacao = 0;
+  }
+
+
+  // ==========================================================
+  // PLANILHA
+  // ==========================================================
+
+  const sheet =
+    getSheet();
+
+
+  // ==========================================================
+  // CONTROLE DE VAGAS
+  // ==========================================================
+
+  const totalInscritos =
+    contarInscritos(sheet);
+
+  const vagasRestantes =
+    LIMITE_VAGAS -
+    totalInscritos;
+
+
+  if (
+    BLOQUEIO_ATIVO &&
+    totalInscritos >=
+    LIMITE_VAGAS
+  ) {
+
+    return json({
+      sucesso: false,
+      mensagem:
+        "⚠️ Inscrições encerradas. Todas as vagas foram preenchidas."
+    });
+  }
+
+
+  // ==========================================================
+  // CPF / EMAIL DUPLICADO
+  // ==========================================================
+
+  if (
+    cpfOuEmailExiste(
+      sheet,
+      cpf,
+      email
+    )
+  ) {
+
+    return json({
+      sucesso: false,
+      mensagem:
+        "CPF ou e-mail já cadastrado."
+    });
+  }
+
+
+  // ==========================================================
+  // NÚMERO DA INSCRIÇÃO
+  // ==========================================================
+
+  const numeroInscricao =
+    gerarNumeroInscricao(sheet);
+
+
+  // ==========================================================
+  // INSCRIÇÃO GRATUITA
+  // ==========================================================
+
+  if (!querSqueeze) {
+
+    sheet.appendRow([
+
+      numeroInscricao,
+      new Date(),
+      nome,
+      data_nascimento,
+      cpf,
+      email,
+      telefone,
+      cidade,
+      modalidade,
+      tipo_participacao,
+      sexo,
+      tamanho_camisa,
+      retirada_kit,
+
+      "NÃO",
+      0,
+      "NÃO SE APLICA",
+      "",
+      "CONFIRMADA"
+
+    ]);
+
+
+    enviarEmailConfirmacao(
+      email,
+      nome,
+      numeroInscricao,
+      modalidade
+    );
+
+
+    let mensagem =
+      "Inscrição confirmada! Nº " +
+      numeroInscricao;
+
+
+    if (
+      vagasRestantes <=
+      ALERTA_POUCAS_VAGAS
+    ) {
+
+      mensagem +=
+        " | ⚠️ Restam apenas " +
+        (vagasRestantes - 1) +
+        " vagas!";
+    }
+
+
+    return json({
+
+      sucesso: true,
+
+      tipo: "gratuita",
+
+      mensagem:
+
+        mensagem,
+
+      numeroInscricao:
+
+        numeroInscricao,
+
+      vagasRestantes:
+
+        vagasRestantes - 1
+
+    });
+  }
+
+
+  // ==========================================================
+  // INSCRIÇÃO COM SQUEEZE
+  // ==========================================================
+
+  // A inscrição fica aguardando pagamento.
+
+  sheet.appendRow([
+
+    numeroInscricao,
+    new Date(),
+    nome,
+    data_nascimento,
+    cpf,
+    email,
+    telefone,
+    cidade,
+    modalidade,
+    tipo_participacao,
+    sexo,
+    tamanho_camisa,
+    retirada_kit,
+
+    "SIM",
+    valorDoacao,
+    "PENDENTE",
+    "",
+    "AGUARDANDO PAGAMENTO"
+
+  ]);
+
+
+  // ==========================================================
+  // CRIAR PAGAMENTO
+  // ==========================================================
+
+  const checkout =
+    criarPreferenciaMercadoPago({
+
+      numeroInscricao:
+        numeroInscricao,
+
+      nome:
+        nome,
+
+      email:
+        email,
+
+      valor:
+        valorDoacao
+
+    });
+
+
+  // ==========================================================
+  // ERRO NO MERCADO PAGO
+  // ==========================================================
+
+  if (!checkout.sucesso) {
+
+    removerInscricao(
+      sheet,
+      numeroInscricao
+    );
+
+    return json({
+
+      sucesso: false,
+
+      mensagem:
+        "Não foi possível gerar o pagamento. Tente novamente."
+
+    });
+  }
+
+
+  // ==========================================================
+  // RETORNAR CHECKOUT
+  // ==========================================================
+
+  return json({
+
+    sucesso: true,
+
+    tipo: "pagamento",
+
+    mensagem:
+      "Inscrição criada. Finalize o pagamento para confirmar sua vaga.",
+
+    numeroInscricao:
+      numeroInscricao,
+
+    pagamentoPendente:
+      true,
+
+    checkoutUrl:
+      checkout.checkoutUrl,
+
+    vagasRestantes:
+      vagasRestantes - 1
+
+  });
+}
+
+
+// ============================================================
+// CRIAR PREFERÊNCIA MERCADO PAGO
+// ============================================================
+
+function criarPreferenciaMercadoPago(dados) {
+
+  const token =
+    PropertiesService
+      .getScriptProperties()
+      .getProperty("MP_ACCESS_TOKEN");
+
+
+  if (!token) {
+
+    throw new Error(
+      "Access Token do Mercado Pago não configurado."
+    );
+  }
+
+
+  const payload = {
+
+    items: [
+
+      {
+
+        title:
+          "Doação voluntária - Squeeze Corrida É Tudo Nosso",
+
+        description:
+          "Doação voluntária para receber a garrafinha squeeze.",
+
+        quantity:
+          1,
+
+        currency_id:
+          "BRL",
+
+        unit_price:
+          dados.valor
+
+      }
+
+    ],
+
+
+    payer: {
+
+      email:
+        dados.email
+
+    },
+        payment_methods: {
+
+      excluded_payment_types: [
+
+        {
+          id: "ticket"
+        }
+
+      ]
+
+    },
+
+    external_reference:
+      String(
+        dados.numeroInscricao
+      ),
+
+
+    notification_url:
+      WEB_APP_URL,
+
+
+    back_urls: {
+
+      success:
+        SITE_URL,
+
+      pending:
+        SITE_URL,
+
+      failure:
+        SITE_URL
+
+    },
+
+
+    auto_return:
+      "approved"
+
+  };
+
+
+  const options = {
+
+    method:
+      "post",
+
+    contentType:
+      "application/json",
+
+    headers: {
+
+      Authorization:
+        "Bearer " + token
+
+    },
+
+    payload:
+      JSON.stringify(payload),
+
+    muteHttpExceptions:
+      true
+
+  };
+
+
+  const response =
+    UrlFetchApp.fetch(
+
+      "https://api.mercadopago.com/checkout/preferences",
+
+      options
+    );
+
+
+  const status =
+    response.getResponseCode();
+
+  const resposta =
+    response.getContentText();
+
+
+  Logger.log(
+    "Mercado Pago HTTP: " +
+    status
+  );
+
+
+  Logger.log(
+    resposta
+  );
+
+
+  if (status !== 201) {
+
+    return {
+      sucesso: false
+    };
+  }
+
+
+  const dadosResposta =
+    JSON.parse(resposta);
+
+
+  return {
+
+    sucesso:
+      true,
+
+    checkoutUrl:
+      dadosResposta.init_point,
+
+    sandboxUrl:
+      dadosResposta.sandbox_init_point,
+
+    preferenceId:
+      dadosResposta.id
+
+  };
+}
+
+
+// ============================================================
+// WEBHOOK MERCADO PAGO
+// ============================================================
+
+function processarWebhookMercadoPago(
+  pagamentoId
+) {
+
+  Logger.log(
+    "================================="
+  );
+
+  Logger.log(
+    "WEBHOOK MERCADO PAGO"
+  );
+
+  Logger.log(
+    "Pagamento recebido: " +
+    pagamentoId
+  );
+
+
+  // ==========================================================
+  // CONSULTAR O PAGAMENTO DIRETAMENTE NO MERCADO PAGO
+  // ==========================================================
+
+  const pagamento =
+    consultarPagamentoMercadoPago(
+      pagamentoId
+    );
+
+
+  if (!pagamento) {
+
+    Logger.log(
+      "Pagamento não encontrado."
+    );
+
+    return;
+  }
+
+
+  Logger.log(
+    "Status: " +
+    pagamento.status
+  );
+
+
+  Logger.log(
+    "Status detalhado: " +
+    pagamento.status_detail
+  );
+
+
+  Logger.log(
+    "External reference: " +
+    pagamento.external_reference
+  );
+
+
+  // ==========================================================
+  // CONFIRMAR QUE É UM PAGAMENTO DO NOSSO MERCADO PAGO
+  // ==========================================================
+
+  if (
+    !pagamento.external_reference
+  ) {
+
+    Logger.log(
+      "Pagamento sem external_reference."
+    );
+
+    return;
+  }
+
+
+  const numeroInscricao =
+    String(
+      pagamento.external_reference
+    );
+
+
+  // ==========================================================
+  // LOCALIZAR INSCRIÇÃO
+  // ==========================================================
+
+  const sheet =
+    getSheet();
+
+
+  const linha =
+    encontrarLinhaPorNumero(
+      sheet,
+      numeroInscricao
+    );
+
+
+  if (!linha) {
+
+    Logger.log(
+      "Inscrição não encontrada."
+    );
+
+    return;
+  }
+
+
+  // ==========================================================
+  // VERIFICAR SE A INSCRIÇÃO REALMENTE É DE SQUEEZE
+  // ==========================================================
+
+  const squeeze =
+    String(
+      sheet
+        .getRange(linha, 14)
+        .getValue()
+    ).toUpperCase();
+
+
+  if (squeeze !== "SIM") {
+
+    Logger.log(
+      "Pagamento não corresponde a uma inscrição com squeeze."
+    );
+
+    return;
+  }
+
+
+  // ==========================================================
+  // COLUNAS
+  //
+  // P = 16 = Status pagamneto
+  // Q = 17 = ID pagamento
+  // R = 18 = Status Inscrição
+  // ==========================================================
+
+  sheet
+    .getRange(linha, 17)
+    .setValue(
+      String(pagamentoId)
+    );
+
+
+  // ==========================================================
+  // PAGAMENTO APROVADO
+  // ==========================================================
+
+  if (
+    pagamento.status ===
+    "approved"
+  ) {
+
+    // Evita mandar o e-mail várias vezes
+    // caso o Mercado Pago envie mais de uma notificação.
+
+    const statusAtual =
+      String(
+        sheet
+          .getRange(linha, 18)
+          .getValue()
+      );
+
+
+    if (
+      statusAtual ===
+      "CONFIRMADA"
+    ) {
+
+      Logger.log(
+        "Inscrição já estava confirmada. Nada a fazer."
+      );
+
+      return;
+    }
+
+
+    // --------------------------------------------------------
+    // STATUS PAGAMENTO
+    // --------------------------------------------------------
+
+    sheet
+      .getRange(linha, 16)
+      .setValue(
+        "APROVADO"
+      );
+
+
+    // --------------------------------------------------------
+    // STATUS INSCRIÇÃO
+    // --------------------------------------------------------
+
+    sheet
+      .getRange(linha, 18)
+      .setValue(
+        "CONFIRMADA"
+      );
+
+
+    // --------------------------------------------------------
+    // PEGAR DADOS
+    // --------------------------------------------------------
+
+    const dadosInscricao =
+      obterDadosInscricao(
+        sheet,
+        linha
+      );
+
+
+    // --------------------------------------------------------
+    // E-MAIL
+    // --------------------------------------------------------
+
+    enviarEmailConfirmacao(
+
+      dadosInscricao.email,
+
+      dadosInscricao.nome,
+
+      dadosInscricao.numeroInscricao,
+
+      dadosInscricao.modalidade
+
+    );
+
+
+    Logger.log(
+      "================================="
+    );
+
+    Logger.log(
+      "PAGAMENTO APROVADO"
+    );
+
+    Logger.log(
+      "INSCRIÇÃO CONFIRMADA"
+    );
+
+    Logger.log(
+      "================================="
+    );
+
+    return;
+  }
+
+
+  // ==========================================================
+  // PAGAMENTO PENDENTE
+  // ==========================================================
+
+  if (
+    pagamento.status ===
+    "pending"
+  ) {
+
+    sheet
+      .getRange(linha, 16)
+      .setValue(
+        "PENDENTE"
+      );
+
+
+    sheet
+      .getRange(linha, 18)
+      .setValue(
+        "AGUARDANDO PAGAMENTO"
+      );
+
+
+    return;
+  }
+
+
+  // ==========================================================
+  // PAGAMENTO REJEITADO
+  // ==========================================================
+
+  if (
+    pagamento.status ===
+    "rejected"
+  ) {
+
+    sheet
+      .getRange(linha, 16)
+      .setValue(
+        "REJEITADO"
+      );
+
+
+    sheet
+      .getRange(linha, 18)
+      .setValue(
+        "PAGAMENTO REJEITADO"
+      );
+
+
+    return;
+  }
+
+
+  // ==========================================================
+  // OUTROS STATUS
+  // ==========================================================
+
+  sheet
+    .getRange(linha, 16)
+    .setValue(
+      String(
+        pagamento.status || ""
+      ).toUpperCase()
+    );
+
+
+  sheet
+    .getRange(linha, 18)
+    .setValue(
+      "AGUARDANDO PAGAMENTO"
+    );
+}
+
+
+// ============================================================
+// CONSULTAR PAGAMENTO NA API
+// ============================================================
+
+function consultarPagamentoMercadoPago(
+  pagamentoId
+) {
+
+  const token =
+    PropertiesService
+      .getScriptProperties()
+      .getProperty("MP_ACCESS_TOKEN");
+
+
+  if (!token) {
+
+    throw new Error(
+      "Access Token do Mercado Pago não configurado."
+    );
+  }
+
+
+  const response =
+    UrlFetchApp.fetch(
+
+      "https://api.mercadopago.com/v1/payments/" +
+      encodeURIComponent(
+        pagamentoId
+      ),
+
+      {
+
+        method:
+          "get",
+
+        headers: {
+
+          Authorization:
+            "Bearer " + token
+
+        },
+
+        muteHttpExceptions:
+          true
+
+      }
+    );
+
+
+  const statusHttp =
+    response.getResponseCode();
+
+
+  const resposta =
+    response.getContentText();
+
+
+  Logger.log(
+    "Consulta pagamento HTTP: " +
+    statusHttp
+  );
+
+
+  if (
+    statusHttp !== 200
+  ) {
+
+    throw new Error(
+      "Erro ao consultar pagamento: " +
+      resposta
+    );
+  }
+
+
+  return JSON.parse(
+    resposta
+  );
+}
+
+
+// ============================================================
+// LOCALIZAR INSCRIÇÃO
+// ============================================================
+
+function encontrarLinhaPorNumero(
+  sheet,
+  numeroInscricao
+) {
+
+  const lastRow =
+    sheet.getLastRow();
+
+
+  if (
+    lastRow <= 1
+  ) {
+
+    return null;
+  }
+
+
+  const dados =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        1
+      )
+      .getValues();
+
+
+  for (
+    let i = 0;
+    i < dados.length;
+    i++
+  ) {
+
+    if (
+      String(
+        dados[i][0]
+      ) ===
+      String(
+        numeroInscricao
+      )
+    ) {
+
+      return i + 2;
+    }
+  }
+
+
+  return null;
+}
+
+
+// ============================================================
+// DADOS DA INSCRIÇÃO
+// ============================================================
+
+function obterDadosInscricao(
+  sheet,
+  linha
+) {
+
+  const dados =
+    sheet
+      .getRange(
+        linha,
+        1,
+        1,
+        18
+      )
+      .getValues()[0];
+
+
+  return {
+
+    numeroInscricao:
+      dados[0],
+
+    nome:
+      dados[2],
+
+    email:
+      dados[5],
+
+    modalidade:
+      dados[8]
+
+  };
+}
+
+
+// ============================================================
+// E-MAIL DE CONFIRMAÇÃO
+// ============================================================
+
+function enviarEmailConfirmacao(
+
+  email,
+
+  nome,
+
+  numeroInscricao,
+
+  modalidade
+
+) {
+
+  const assunto =
+    "Confirmação – Corrida e Caminhada pela Amizade";
+
+
+const corpoEmail =
+`Olá, ${nome}!
+
+🏃‍♂️ Corrida e Caminhada Luta pela inclusão
+
+📅 Data: 27 de setembro
+
+🏃 Modalidade escolhida:
+${modalidade}
+
+🎽 Kit:
+Camiseta, medalha, número de peito, chip, lanche e água.
+
+🥤 Garrafa Squeeze:
+Ao realizar uma doação de R$ 10,00 ou mais, você garante uma garrafa squeeze exclusiva do evento! 💜
+
+📱 Importante:
+Informe um número de WhatsApp válido para que nossa equipe possa entrar em contato, confirmar o pagamento da doação e orientar sobre o recebimento da garrafa.
+
+🧾 Seu número de inscrição:
+${numeroInscricao}
+
+⚠️ IMPORTANTE:
+Documento com foto obrigatório.
+O número de inscrição é pessoal.
+
+Guarde este e-mail e apresente as informações solicitadas no dia do evento.
+
+Nos vemos na largada! 🏁
+
+Equipe É Tudo Nosso`;
+
+
+  MailApp.sendEmail({
+
+    to:
+      email,
+
+    subject:
+      assunto,
+
+    body:
+      corpoEmail
+
+  });
+}
+
+
+// ============================================================
+// GET - CONSULTAR VAGAS
+// ============================================================
+
+function doGet(e) {
+
+  try {
+
+    const sheet =
+      getSheet();
+
+
+    const totalInscritos =
+      contarInscritos(
+        sheet
+      );
+
+
+    const vagasRestantes =
+      LIMITE_VAGAS -
+      totalInscritos;
+
+
+    if (
+      BLOQUEIO_ATIVO &&
+      totalInscritos >=
+      LIMITE_VAGAS
+    ) {
+
+      return json({
+
+        sucesso:
+          false,
+
+        vagasRestantes:
+          0,
+
+        mensagem:
+          "⚠️ Inscrições encerradas."
+
+      });
+    }
+
+
+    let alerta = "";
+
+
+    if (
+      vagasRestantes <=
+      ALERTA_POUCAS_VAGAS
+    ) {
+
+      alerta =
+        "⚠️ Restam apenas " +
+        vagasRestantes +
+        " vagas!";
+    }
+
+
+    return json({
+
+      sucesso:
+        true,
+
+      vagasRestantes:
+        vagasRestantes,
+
+      totalInscritos:
+        totalInscritos,
+
+      limite:
+        LIMITE_VAGAS,
+
+      alerta:
+        alerta
+
+    });
+
+
+  } catch (err) {
+
+    return json({
+
+      sucesso:
+        false,
+
+      mensagem:
+        "Erro ao verificar vagas."
+
+    });
+  }
+}
+
+
+// ============================================================
+// PEGAR PLANILHA
+// ============================================================
+
+function getSheet() {
+
+  const ss =
+    SpreadsheetApp
+      .getActiveSpreadsheet();
+
+
+  const sheet =
+    ss.getSheetByName(
+      NOME_ABA
+    );
+
+
+  if (!sheet) {
+
+    throw new Error(
+      "Aba inscritos não encontrada"
+    );
+  }
+
+
+  return sheet;
+}
+
+
+// ============================================================
+// CONTAR INSCRITOS
+// ============================================================
+
+function contarInscritos(
+  sheet
+) {
+
+  const lastRow =
+    sheet.getLastRow();
+
+
+  if (
+    lastRow <= 1
+  ) {
+
+    return 0;
+  }
+
+
+  const dados =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        18
+      )
+      .getValues();
+
+
+  return dados.filter(
+    linha =>
+      linha[2] !== ""
+  ).length;
+}
+
+
+// ============================================================
+// CPF OU EMAIL DUPLICADO
+// ============================================================
+
+function cpfOuEmailExiste(
+
+  sheet,
+
+  cpf,
+
+  email
+
+) {
+
+  const lastRow =
+    sheet.getLastRow();
+
+
+  if (
+    lastRow <= 1
+  ) {
+
+    return false;
+  }
+
+
+  const dados =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        18
+      )
+      .getValues();
+
+
+  return dados.some(
+    linha =>
+
+      String(
+        linha[4]
+      )
+        .trim() ===
+      String(
+        cpf
+      )
+        .trim()
+
+      ||
+
+      String(
+        linha[5]
+      )
+        .trim()
+        .toLowerCase() ===
+      String(
+        email
+      )
+        .trim()
+        .toLowerCase()
+  );
+}
+
+
+// ============================================================
+// GERAR NÚMERO
+// ============================================================
+
+function gerarNumeroInscricao(
+  sheet
+) {
+
+  const lastRow =
+    sheet.getLastRow();
+
+
+  if (
+    lastRow <= 1
+  ) {
+
+    return 1;
+  }
+
+
+  const valores =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        1
+      )
+      .getValues();
+
+
+  let maior =
+    0;
+
+
+  valores.forEach(
+    linha => {
+
+      const numero =
+        Number(
+          linha[0]
+        );
+
+
+      if (
+        !isNaN(numero) &&
+        numero > maior
+      ) {
+
+        maior =
+          numero;
+      }
+    }
+  );
+
+
+  return maior + 1;
+}
+
+
+// ============================================================
+// REMOVER INSCRIÇÃO
+// ============================================================
+
+function removerInscricao(
+
+  sheet,
+
+  numeroInscricao
+
+) {
+
+  const linha =
+    encontrarLinhaPorNumero(
+      sheet,
+      numeroInscricao
+    );
+
+
+  if (linha) {
+
+    sheet.deleteRow(
+      linha
+    );
+  }
+}
+
+
+// ============================================================
+// JSON
+// ============================================================
+
+function json(obj) {
+
+  return ContentService
+
+    .createTextOutput(
+      JSON.stringify(obj)
+    )
+
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
+}
+
+function testarMeiosPagamento() {
+
+  const token = PropertiesService
+    .getScriptProperties()
+    .getProperty("MP_ACCESS_TOKEN");
+
+  const response = UrlFetchApp.fetch(
+    "https://api.mercadopago.com/v1/payment_methods",
+    {
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token
+      },
+      muteHttpExceptions: true
+    }
+  );
+
+  Logger.log("HTTP: " + response.getResponseCode());
+  Logger.log(response.getContentText());
+}
